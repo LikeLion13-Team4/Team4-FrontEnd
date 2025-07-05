@@ -1,0 +1,197 @@
+/* --- 왼쪽 컬럼 --- */
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.grass-calendar {
+  height: 350px;
+}
+.every-day-grass {
+  height: 200px;
+}
+
+/* --- 카드 공통 스타일 --- */
+.grass-calendar,
+.every-day-grass,
+.meal-plan {
+  background-color: #e0f1ea;
+  border-radius: 20px;
+  padding: 24px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- 식단 계획표(.meal-plan) --- */
+.meal-plan {
+  background-color: #e0f1ea;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 1) 헤더 */
+.mp-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.mp-nav {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #5c5452;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mp-prev {
+  position: absolute;
+  left: 0;
+}
+.mp-next {
+  position: absolute;
+  right: 0;
+}
+.mp-month {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* 2) 요일 네비게이션 */
+.mp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.mp-weekdays::-webkit-scrollbar {
+  display: none;
+}
+.mp-weekdays .day {
+  background-color: #5c5452;
+  color: #fff;
+  border-radius: 12px;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.mp-weekdays .day.active {
+  background-color: #3e3837;
+}
+
+/* 3) 식단 슬롯 컨테이너 */
+.items-container {
+  display: flex;
+  gap: 8px;
+}
+.mp-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+/* 빈 슬롯(+ 버튼) */
+.mp-col .slot.empty {
+  width: 100%;
+  max-width: 120px;
+  min-height: 80px;
+  border-radius: 12px;
+  background: #dbe4de;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #5c5452;
+  cursor: pointer;
+}
+/* 입력된 아이템 슬롯 */
+.mp-col .slot.item {
+  width: 100%;
+  max-width: 120px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 0.85rem;
+}
+.mp-col .slot.item .food {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.mp-col .slot.item .note {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+/* 4) 모달 팝업 */
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+#modal .modal-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px;
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  gap: 32px;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+#modal .form-left,
+#modal .form-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-divider {
+  width: 1px;
+  background: #e0e0e0;
+}
+#modal label {
+  font-size: 0.9rem;
+  color: #5c5452;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+#modal input {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  padding-top: 60px;
+  padding-left: 40px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  box-sizing: border-box;
+}

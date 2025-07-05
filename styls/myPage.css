@@ -1,0 +1,13 @@
+.innner-main {
+  background-color: antiquewhite;
+}
+
+.main-content {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding-top: 60px;
+  padding-left: 60px;
+  box-sizing: border-box;
+}
