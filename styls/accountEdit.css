@@ -1,0 +1,188 @@
+/* Account Settings 폼 전체 너비와 패딩 */
+.account-settings-form {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* 상세정보 영역 */
+.account-settings-form .detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* 각 행 레이아웃 */
+.account-settings-form .detail-row {
+  display: flex;
+  align-items: center;
+}
+
+/* 레이블 영역 (이름/Email/비밀번호) */
+.account-settings-form .first {
+  width: 100px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #3f4a3a;
+}
+
+/* 입력 필드 영역 */
+.account-settings-form .second {
+  flex: 1;
+}
+
+/* 입력 박스 기본 스타일 */
+.account-settings-form input[type="text"],
+.account-settings-form input[type="email"],
+.account-settings-form input[type="password"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  font-size: 0.9rem;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* 편집 버튼 */
+.account-settings-form .btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+/* 계정 삭제 버튼 */
+.account-settings-form .delete-account {
+  background: none;
+  border: none;
+  color: #c0392b;
+  text-decoration: underline;
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-start;
+} /* 부모를 기준으로 절대 위치 지정 */
+.mode.account-mode {
+  position: relative;
+}
+
+/* 계정 모드 우측 끝에 위치할 화살표 버튼 */
+.account-arrow-btn {
+  position: absolute;
+  right: 16px; /* 컨테이너 우측 여백 만큼 띄움 */
+  top: 50%; /* 세로 중앙 */
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 화살표 이미지가 버튼을 가득 채우도록 */
+.account-arrow-btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* account-mode 기준을 잡아 뒤로가기 버튼 위치 */
+.mode.account-mode {
+  position: relative;
+  padding-top: 1.5rem; /* 뒤로가기 버튼 띄울 공간 */
+}
+
+.account-arrow-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 숨김 토글 */
+.hidden {
+  display: none !important;
+}
+
+/* 오버레이 */
+#confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* 모달 박스 */
+#confirm-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1001;
+}
+
+/* 모달 제목·부제목 */
+#confirm-modal h3 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+#confirm-modal .modal-subtitle {
+  margin: 0 0 24px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* 버튼 그룹 */
+#confirm-modal .modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* 취소 버튼 */
+.btn-cancel {
+  padding: 8px 24px;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+/* 삭제 버튼 (경고색) */
+.btn-delete {
+  padding: 8px 24px;
+  background-color: #fff;
+  color: #c0392b;
+  border: 1px solid #c0392b;
+  border-radius: 24px;
+  cursor: pointer;
+}
+
+/* 재사용: .modal, .modal h3, .modal .modal-subtitle 스타일 유지 */
+/* 예시로 모달 너비만 조금 조정하고 싶다면: */
+#deleted-modal {
+  width: 300px; /* 확인 모달과 동일하거나 약간 작게 */
+  text-align: center;
+}

@@ -77,11 +77,11 @@
   display: none;
 }
 .mp-weekdays .day {
-  background-color: #5c5452;
+  background-color: #817b7a;
   color: #fff;
   border-radius: 12px;
   text-align: center;
-  padding: 10px 0;
+  padding: 25px 0;
   font-size: 0.9rem;
   flex-shrink: 0;
 }
@@ -104,7 +104,7 @@
 /* 빈 슬롯(+ 버튼) */
 .mp-col .slot.empty {
   width: 100%;
-  max-width: 120px;
+  max-width: 150px;
   min-height: 80px;
   border-radius: 12px;
   background: #dbe4de;
@@ -119,6 +119,7 @@
 .mp-col .slot.item {
   width: 100%;
   max-width: 120px;
+  height: 70px;
   background: #fff;
   border-radius: 12px;
   padding: 12px;
@@ -194,4 +195,19 @@
   padding-right: 20px;
   padding-bottom: 30px;
   box-sizing: border-box;
+}
+
+/* 1) 두 영역 모두 6등분 그리드로 */
+
+/* 2) 요일(day)와 칼럼(mp-col) 안 콘텐츠 중앙 정렬 */
+.mp-weekdays .day,
+.items-container .mp-col {
+  display: flex;
+  align-items: center; /* 세로 중앙 */
+  justify-content: flex-start;
+}
+
+/* 3) 요일과 슬롯간 간격 (선택) */
+.mp-weekdays {
+  margin-bottom: 12px; /* 두 행 사이 여백 */
 }

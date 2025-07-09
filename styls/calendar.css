@@ -1,0 +1,267 @@
+/* 캘린더 전체 래퍼 */
+.grass-calendar .calendar {
+  width: 280px;
+  background: #e6f5f0;
+  border-radius: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+/* 헤더: 월/이동 버튼 */
+.grass-calendar .calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.grass-calendar .calendar-header button {
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.grass-calendar .calendar-header .month {
+  font-weight: bold;
+}
+
+/* 요일 줄 */
+.grass-calendar .weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* 날짜 그리드 */
+.grass-calendar .days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.grass-calendar .day {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 50%;
+  background: white;
+  cursor: default;
+}
+.grass-calendar .day.attended {
+  background: #6e5e53; /* 잔디 핀 날 */
+  color: white;
+}
+.grass-calendar .day.today {
+  border: 2px solid #3a8dff; /* 오늘 강조 */
+}
+
+/* ── 헤더: 제목 + 월 선택 드롭다운 ── */
+.grass-calendar .calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 8px;
+}
+
+.grass-calendar .calendar-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #6e5e53; /* 원하시는 색으로 조정 */
+}
+
+/* 셀렉트 박스 스타일 */
+.grass-calendar .month-select {
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #000;
+  cursor: pointer;
+  appearance: none; /* 기본 화살표 숨기기 */
+  padding-right: 16px; /* 커스텀 화살표 공간 */
+  position: relative;
+}
+
+/* 드롭다운 커스텀 화살표 (font-awesome 사용) */
+.grass-calendar .month-select::after {
+  content: "\f078";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* CSS */
+.month-select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.month-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url("/images/downArrow.svg") no-repeat calc(100% - 8px) center,
+    white;
+  padding: 4px 32px 4px 8px; /* 오른쪽 여유를 주어 화살표가 보이게 */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+/* ① 전체 3×2 Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: auto repeat(6, 1fr) auto;
+  grid-template-rows: auto 1fr;
+  column-gap: 16px;
+  row-gap: 12px;
+  align-items: start; /* 날짜는 위쪽, 슬롯은 아래쪽으로 정렬 */
+}
+
+/* ② 날짜 영역 (1행 가운데 6칸) */
+.calendar-grid .mp-weekdays {
+  grid-column: 2 / 8; /* 2열부터 7열까지 */
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 16px;
+}
+
+/* ③ 슬롯 영역 (2행 가운데 6칸) */
+.calendar-grid .items-container {
+  grid-column: 2 / 8;
+  grid-row: 2;
+
+  display: flex; /* ← grid → flex */
+  gap: 16px; /* 컬럼 간격 */
+  /* flex-direction: row; 가 기본이니 따로 안 써도 됩니다 */
+}
+
+/* ④ 채우기용 빈 칸 (날짜 앞뒤) */
+.calendar-grid .filler-cell {
+  grid-row: 1;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+}
+
+/* ⑤ 내비 버튼 (2행 양 끝) */
+.calendar-side-nav {
+  grid-row: 2;
+  width: 100%; /* 셀 가로 끝까지 꽉 채우기 */
+  height: 400px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f9fff8;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  color: #6b7a6b;
+  cursor: pointer;
+}
+
+.calendar-side-nav:hover {
+  background-color: #e6fff4;
+}
+
+/* 왼쪽 버튼은 1열, 오른쪽 버튼은 8열 */
+.calendar-side-nav.nav-prev {
+  grid-column: 1;
+}
+.calendar-side-nav.nav-next {
+  grid-column: 8;
+}
+
+/* 1) 컬럼 높이를 고정하거나 부모 그리드에 의해 일정 높이가 주어져 있어야 합니다.
+   calendar.css(또는 style.css)의 .items-container 에 높이를 맞춰주거나, 
+   grid 레이아웃에서 row 높이를 지정하세요. 예를 들어: */
+.items-container {
+  display: flex;
+  gap: 8px;
+  height: 400px; /* nav 버튼 높이와 동일하게 맞춰줍니다 */
+}
+
+/* 2) .mp-col 에도 동일한 높이를 물려주고 flex 컨테이너로 유지 */
+.mp-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수평 정렬 */
+  height: 100%; /* 부모인 .items-container의 400px을 물려받습니다 */
+  gap: 8px;
+}
+
+/* 3) 플러스 슬롯에만 margin-top: auto 를 주어 아래로 밀어내기 */
+.mp-col .slot.empty {
+  margin-top: auto;
+}
+
+/* .mp-col 은 flex 컨테이너, column 방향, 위에서부터 쌓이도록 */
+.mp-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* ← 여기가 핵심 */
+  align-items: center;
+  gap: 8px;
+}
+
+/* 빈 슬롯에는 margin‐top:auto 를 없애 주세요 */
+.mp-col .slot.empty {
+  margin-top: 0;
+}
+
+/* ① 컬럼 컨테이너가 부모 높이에 맞춰 stretch 되는 걸 막고, 
+      콘텐츠 높이만큼만 갖도록 상단 정렬 */
+.items-container {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start; /* ← 추가 (기본값 stretch → flex-start) */
+}
+
+/* ② 컬럼 내부는 위에서부터 채워지도록, 여백 자동 배치는 없애기 */
+.mp-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* ← 기본값 (stretch 였다면 명시) */
+  gap: 8px;
+}
+
+/* ③ 빈 슬롯(+ 버튼)에 있던 자동 마진 제거 */
+.mp-col .slot.empty {
+  margin-top: 0; /* ← 이전에 넣으셨다면 반드시 지우기 */
+}
+
+/* 출석한 날 (attended) 스타일 */
+.calendar .days .day.attended {
+  background-color: #333; /* 검은 배경 */
+  color: #fff; /* 흰 글자 */
+}
+
+/* 모달 기본 상태: 화면에서 숨김 */
+#modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: none; /* ← 반드시 있어야 함 */
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* .show 클래스가 붙으면 flex 컨테이너로 보여줌 */
+#modal.show {
+  display: flex; /* ← 반드시 있어야 함 */
+}

@@ -7,6 +7,11 @@
     <title>마이페이지</title>
     <link rel="stylesheet" href="/styls/entire.css" />
     <link rel="stylesheet" href="/styls/myPage.css" />
+    <link rel="stylesheet" href="/styls/myProfileEdit.css">
+    <link rel="stylesheet" href="/styls/accountEdit.css">
+    <link rel="stylesheet" href="/styls/myActivities.css">
+    <link rel="stylesheet" href="/styls/posts.css">
+
 
 </head>
 
@@ -37,30 +42,468 @@
 
         <!-- 메인 콘텐츠 -->
         <main class="main-content">
-            <div class="main-view">
-                메인
-            </div>
-            <div class="select-view">
-                <div class="my-info">
-                    <div class="info-setting">계정 설정</div>
-                    <div class="physical-info">신체 정보</div>
-                </div>
-                <div class="my-active">
-                    <div class="save-content">
-                        저장한 게시물
+            <!-- 좌측: 신체정보 카드 -->
+            <section class="info-card profile-mode">
+                <header class="info-header">
+                    <div class="bodyInfoIcon">
+                        <span class="icon-user"><img src="../images/bodyInfo.svg"></span>
+                        <h2>프로필</h2>
                     </div>
-                    <div class="like-content">
-                        좋아요한 게시물
-                    </div>
-                    <div class="recent-active">
-                        <a>내 게시물</a>
-                        <a>내가 쓴 댓글</a>
-                    </div>
-                </div>
-            </div>
+                    <button class="btn-settings">
+                        <span class="icon-gear">
+                            <p>계정설정</p>
+                            <img src="../images/settingbtn.svg">
+                        </span>
+                    </button>
+                </header>
 
+                <!--기본 화면-->
+                <div class="mode view-mode">
+                    <div class="profile-pic"></div>
+
+                    <h3 class="user-name">김멋사</h3>
+                    <div class="detail-info">
+                        <dl class="physical-details">
+                            <div class="detail-row">
+                                <div class="first">
+                                    <dt>성별</dt>
+                                </div>
+                                <div class="second">
+                                    <dd>남</dd>
+                                </div>
+                            </div>
+                            <div class="detail-row">
+                                <dt>나이</dt>
+                                <dd>만 25세</dd>
+                            </div>
+                            <div class="detail-row">
+                                <dt>키</dt>
+                                <dd>180 cm</dd>
+                            </div>
+                            <div class="detail-row">
+                                <dt>체중</dt>
+                                <dd>77 kg</dd>
+                            </div>
+
+                        </dl>
+                        <button class="right-btn">
+                            <img src="../images/rightArroww.svg">
+                        </button>
+
+
+                    </div>
+
+                    <button class="btn-edit">편집</button>
+
+                </div>
+
+                <!--기본 화면-->
+
+
+
+
+                <!--이건 편집버튼 누르면 보이는 화면 -->
+
+                <form class="mode edit-mode hidden">
+                    <div class="profile-pic-edit">
+                        <img src="../images/capybara.png" alt="프로필 사진">
+                        <button type="button" class="pic-edit-btn">편집</button>
+                    </div>
+
+
+                    <div class="detail-info">
+                        <!-- 성별 -->
+                        <div class="detail-row">
+                            <div class="first"><label>성별</label></div>
+                            <div class="second gender-group">
+                                <label class="btn-radio">
+                                    <input type="radio" name="gender" value="M" checked>
+                                    <span>남</span>
+                                </label>
+                                <label class="btn-radio">
+                                    <input type="radio" name="gender" value="F">
+                                    <span>여</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 생년월일 -->
+                        <div class="detail-row">
+                            <div class="first"><label for="birth-year">생년월일</label></div>
+                            <div class="second birthday-group">
+                                <select id="birth-year" name="birthYear">
+                                    <!-- JS로 옵션 채우기 -->
+                                </select>
+                                <select id="birth-month" name="birthMonth">
+                                    <!-- JS로 옵션 채우기 -->
+                                </select>
+                                <select id="birth-day" name="birthDay">
+                                    <!-- JS로 옵션 채우기 -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 키 -->
+                        <div class="detail-row">
+                            <div class="first"><label for="height">키 (cm)</label></div>
+                            <div class="second">
+                                <input id="height" type="number" name="height" min="0" placeholder="180">
+                            </div>
+                        </div>
+
+                        <!-- 몸무게 -->
+                        <div class="detail-row">
+                            <div class="first"><label for="weight">몸무게 (kg)</label></div>
+                            <div class="second">
+                                <input id="weight" type="number" name="weight" min="0" placeholder="77">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-save">저장</button>
+                </form>
+
+                <!--이건 편집버튼 누르면 보이는 화면 여기까지 -->
+
+
+                <!--우측 화살표 누르면 나오는 계정설정 -->
+                <div class="mode account-mode hidden">
+                    <!-- ◀ 뒤로가기 화살표 -->
+                    <button type="button" class="account-arrow-btn">
+                        <img src="../images/rightArroww.svg" alt="뒤로">
+                    </button>
+
+                    <!-- ① 조회용 뷰 (초기 노출) -->
+                    <div class="account-view">
+                        <form class="account-settings-form">
+                            <div class="detail-info">
+                                <!-- 이름 -->
+                                <div class="detail-row">
+                                    <div class="first">이름</div>
+                                    <div class="second">
+                                        <input type="text" name="userName" value="김00" readonly />
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="detail-row">
+                                    <div class="first">Email</div>
+                                    <div class="second">
+                                        <input type="email" name="email" value="likelion13th_team4@gmail.com"
+                                            readonly />
+                                    </div>
+                                </div>
+                                <!-- 비밀번호 -->
+                                <div class="detail-row">
+                                    <div class="first">비밀번호</div>
+                                    <div class="second">
+                                        <input type="password" name="password" value="k*************" readonly />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn-edit">편집</button>
+                            <button type="button" class="delete-account">계정 삭제</button>
+                        </form>
+                    </div>
+
+                    <!-- ② 수정용 폼 (초기엔 숨김) -->
+                    <div class="account-edit hidden">
+                        <form class="account-settings-form">
+                            <div class="detail-info">
+                                <!-- 이름은 그대로 readonly -->
+                                <div class="detail-row">
+                                    <div class="first">이름</div>
+                                    <div class="second">
+                                        <input type="text" name="userName" value="김00" readonly />
+                                    </div>
+                                </div>
+                                <!-- Email은 변경 가능 -->
+                                <div class="detail-row">
+                                    <div class="first">Email</div>
+                                    <div class="second">
+                                        <input type="email" name="email" value="likelion13th_team4@gmail.com" />
+                                    </div>
+                                </div>
+                                <!-- 기존 비밀번호 입력 -->
+                                <div class="detail-row">
+                                    <div class="first">기존 비밀번호</div>
+                                    <div class="second">
+                                        <input type="password" name="currentPassword" placeholder="현재 비밀번호 입력" />
+                                    </div>
+                                </div>
+                                <!-- 새 비밀번호 입력 -->
+                                <div class="detail-row">
+                                    <div class="first">새 비밀번호</div>
+                                    <div class="second">
+                                        <input type="password" name="newPassword" placeholder="새 비밀번호 입력" />
+                                    </div>
+                                </div>
+                                <!-- 이메일 6자리 인증코드 -->
+                                <div class="detail-row">
+                                    <div class="first">이메일 인증코드</div>
+                                    <div class="second code-group">
+                                        <input type="text" name="emailCode" placeholder="6자리 코드" maxlength="6" />
+                                        <button type="button" class="btn-code">인증코드 받기</button>
+                                        <button type="button" class="btn-code-verify">인증하기</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-save">저장</button>
+                        </form>
+                    </div>
+                </div>
+
+
+                <!--우측 화살표 누르기 -->
+
+
+            </section>
+
+
+            <!-- ② 저장한 게시물 뷰 (초기엔 숨김) -->
+            <section class="info-card saved-mode hidden">
+                <header class="info-header">
+                    <div class="bodyInfoIcon">
+                        <span class="icon-star"><img src="../images/star.svg"></span>
+                        <h2>저장한 게시물</h2>
+                    </div>
+                    <button class="btn-settings">
+                        <span class="icon-delete-all">선택 삭제</span>
+                    </button>
+                </header>
+                <div class="saved-content">
+                    <!-- 여기 아래에 “저장한 게시물” 리스트를 렌더링 -->
+                </div>
+            </section>
+
+
+
+            <!-- 좋아요한 게시물 뷰 (초기엔 숨김) -->
+            <section class="info-card liked-mode hidden">
+                <header class="info-header">
+                    <div class="bodyInfoIcon">
+                        <span class="icon-heart"><img src="../images/heart.svg"></span>
+                        <h2>좋아요한 게시물</h2>
+                    </div>
+                    <button class="btn-settings">선택 삭제</button>
+                </header>
+                <div class="liked-content">
+                    <!-- 여기 좋아요한 리스트 렌더링 -->
+                </div>
+            </section>
+
+            <template id="liked-card-template">
+                <div class="item-card">
+                    <div class="card-text">
+                        <h3 class="card-title"></h3>
+                        <p class="card-body"></p>
+                        <div class="card-tags"></div>
+                    </div>
+                    <div class="card-actions">
+                        <div class="thumbnail"></div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 내 활동 모드 (새로 추가) -->
+            <section class="info-card activity-mode hidden">
+                <header class="info-header">
+                    <div class="bodyInfoIcon">
+                        <span class="icon-clock"><img src="../images/clock.svg"></span>
+                        <h2>내 게시글</h2>
+                    </div>
+                    <button class="btn-settings">선택 삭제</button>
+                </header>
+                <div class="my-posts-content">
+                    <!-- 여기 좋아요한 리스트 렌더링 -->
+                </div>
+            </section>
+
+            <!-- 카드 템플릿 -->
+            <template id="my-post-card-template">
+                <div class="item-card">
+                    <div class="card-text">
+                        <h3 class="card-title"></h3>
+                        <p class="card-body"></p>
+                        <div class="card-tags"></div>
+                    </div>
+                    <div class="card-actions">
+                        <!-- 체크박스 없이 썸네일만 -->
+                        <div class="thumbnail"></div>
+                    </div>
+                </div>
+            </template>
+
+
+            <!-- ② 댓글 목록 섹션 (처음엔 숨김) -->
+            <section class="info-card my-comments-mode hidden">
+                <header class="info-header">
+                    <div class="bodyInfoIcon">
+                        <span class="icon-comment"><img src="../images/comment.svg" alt=""></span>
+                        <h2>내가 쓴 댓글</h2>
+                    </div>
+                    <button class="btn-settings">선택 삭제</button>
+                </header>
+                <div class="my-comments-content">
+                    <!-- JS가 댓글 카드들을 채워 넣습니다 -->
+                </div>
+            </section>
+
+
+            <template id="card-template">
+                <div class="item-card">
+                    <div class="card-text">
+                        <!-- 제목 -->
+                        <h3 class="card-title"></h3>
+                        <!-- 본문 -->
+                        <p class="card-body"></p>
+                        <!-- 사진 썸네일 여러 장 -->
+                        <div class="card-images"></div>
+                        <!-- 해시태그 -->
+                        <div class="card-tags"></div>
+                    </div>
+                    <div class="card-actions">
+                        <!-- 기존에 있던 +N 표시(선택 삭제 등) -->
+                        <div class="thumbnail"></div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- 댓글 카드용 템플릿 (기존 author/time 대신 title 넣음) -->
+            <template id="comment-card-template">
+                <div class="item-card">
+                    <div class="card-text">
+                        <!-- (1) 제목 -->
+                        <h3 class="card-title"></h3>
+                        <!-- (2) 본문 -->
+                        <p class="card-body"></p>
+                        <!-- (3) 해시태그 -->
+                        <div class="card-tags"></div>
+                        <!-- (4) 사진 썸네일 -->
+                        <div class="card-images"></div>
+                    </div>
+                    <!-- (5) +N 썸네일 (사진이 3장 초과일 때 표시) -->
+                    <div class="card-actions">
+                        <div class="thumbnail"></div>
+                    </div>
+                </div>
+            </template>
+
+
+
+
+            <!-- 우측: “내 정보 / 내 활동” 서브패널 -->
+            <aside class="side-panel">
+                <div class="panel-group">
+                    <h4>내 정보</h4>
+                    <div class="panel-group-detail">
+                        <button class="tab">계정 설정 <span class="icon-gear"><img src="../images/settingbtn.svg"
+                                    alt=""></span></button>
+                        <button class="tab active">신체 정보 <span class="icon-user"><img
+                                    src="../images/bodyInfo.svg"></span></button>
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <h4>내 활동</h4>
+                    <div class="panel-group-detail2">
+                        <button class="activity" id="savedBtn">
+                            <span class="icon-star">
+                                <img src="../images/star.svg">
+                            </span>
+                            저장한 게시물
+                        </button>
+                        <button class="activity" id="likedBtn">
+                            <span class="icon-heart"><img src="../images/heart.svg">
+                            </span>좋아요한
+                            게시물
+                        </button>
+                    </div>
+                    <div>
+
+                    </div>
+                    <div class="recent-activity">
+                        <button class="my-activity"><span class="icon-clock"><img src="../images/clock.svg"></span>
+                            내활동
+                        </button>
+                        <div class="sub-links">
+                            <a href="#" id="my-posts">내 게시물</a>
+                            <a href="#" id="my-comments" data-target="my-comments-mode">내가 쓴 댓글</a>
+                        </div>
+
+                    </div>
+                </div>
+            </aside>
         </main>
+
     </div>
+
+
+
+    <!-- 편집 팝업창  -->
+    <div id="modal-overlay" class="hidden"></div>
+
+    <div id="edit-modal" class="modal hidden">
+        <h3>사진 편집</h3>
+        <button type="button" class="modal-close">&times;</button>
+
+        <button type="button" class="file-upload-btn">
+            <img src="../images/upload-icon.svg" alt="" />
+            파일 업로드
+            <input type="file" id="profile-file-input" accept="image/*" hidden>
+        </button>
+
+        <div class="preview-box">
+            <img id="preview-image" src="" alt="미리보기">
+        </div>
+        <button type="button" id="delete-current">현재 사진 삭제</button>
+
+        <div class="modal-actions">
+            <button type="button" id="cancel-btn">취소</button>
+            <button type="button" id="save-btn">저장</button>
+        </div>
+    </div>
+
+
+
+    <!-- 1) 반투명 오버레이 -->
+    <div id="confirm-overlay" class="hidden"></div>
+
+    <!-- 2) 삭제 확인 모달 -->
+    <div id="confirm-modal" class="modal hidden">
+        <h3>정말 계정을 삭제할까요?</h3>
+        <p class="modal-subtitle">이 작업은 되돌릴 수 없습니다.</p>
+        <div class="modal-buttons">
+            <button type="button" id="confirm-cancel" class="btn-cancel">취소</button>
+            <button type="button" id="confirm-delete" class="btn-delete">삭제</button>
+        </div>
+    </div>
+
+
+    <div id="confirm-modal" class="modal hidden">
+        <h3>정말 계정을 삭제할까요?</h3>
+        <p class="modal-subtitle">이 작업은 되돌릴 수 없습니다.</p>
+        <div class="modal-buttons">
+            <button type="button" id="confirm-cancel" class="btn-cancel">취소</button>
+            <button type="button" id="confirm-delete" class="btn-delete">삭제</button>
+        </div>
+    </div>
+
+    <!-- 삭제 완료 모달 -->
+    <div id="deleted-modal" class="modal hidden">
+        <h3>계정이 삭제되었습니다.</h3>
+        <p class="modal-subtitle">이 작업은 되돌릴 수 없습니다.</p>
+    </div>
+
+
+
+
+    <script src="../scripts/myPage.js" defer></script>
+    <script src="../scripts/posts.js" defer></script>
+    <script src="../scripts/items.js" defer></script>
+    <script src="../scripts/updatePosts.js" defer></script>
+
+
 </body>
 
 </html>
