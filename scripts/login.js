@@ -1,3 +1,4 @@
+// scripts/login.js
 window.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".login-form");
   if (!form) {
@@ -5,7 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
@@ -15,30 +16,24 @@ window.addEventListener("DOMContentLoaded", () => {
       return alert("이메일과 비밀번호를 모두 입력해주세요.");
     }
 
-    fetch("http://3.39.89.75:8080/api/v1/auths/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "*/*",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.isSuccess) {
-          alert("로그인 성공!");
-          localStorage.setItem("accessToken", data.result.accessToken);
-          window.location.href = "/pages/report.html";
-        } else {
-          alert("로그인 실패: " + data.message);
-        }
-      })
-      .catch((err) => {
-        console.error("로그인 오류:", err);
-        alert("로그인 요청 중 오류 발생");
+    try {
+      // AccessAPI.apiFetch 사용
+      const data = await AccessAPI.apiFetch("/api/v1/auths/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
       });
+
+      if (data.isSuccess) {
+        alert("로그인 성공!");
+        AccessAPI.setToken(data.result.accessToken);
+        // 로그인 후 리포트 페이지로 이동
+        window.location.href = "report.html";
+      } else {
+        alert("로그인 실패: " + data.message);
+      }
+    } catch (err) {
+      console.error("로그인 오류:", err);
+      alert("로그인 요청 중 오류 발생");
+    }
   });
 });
