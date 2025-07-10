@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>개인 정보 입력</title>
+    <link rel="stylesheet" href="../styles/login.css" />
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 왼쪽 설명 -->
+      <div class="left-panel first-panel">
+        <div class="text-wrapper">
+          <p>맞춤형 영양 분석을 위해</p>
+          <p>간단한 정보를 알려주세요.</p>
+        </div>
+      </div>
+
+      <!-- 오른쪽 입력 -->
+      <div class="right-panel first-panel">
+        <form class="form-section">
+          <!-- 성별 -->
+          <div class="form-group">
+            <label class="input-label">성별</label>
+            <div class="gender-options">
+              <input type="radio" id="male" name="gender" hidden />
+              <label for="male">남</label>
+
+              <input type="radio" id="female" name="gender" hidden />
+              <label for="female">여</label>
+            </div>
+          </div>
+
+          <!-- 생년월일 -->
+          <div class="form-group">
+            <label class="input-label">생년월일</label>
+            <div class="birth-select">
+              <select id="year" name="year"></select>
+              <select id="month" name="month"></select>
+              <select id="day" name="day"></select>
+            </div>
+          </div>
+
+          <!-- 키 & 몸무게 -->
+          <div class="form-group two-inputs">
+            <div class="input-box">
+              <label for="height">키 (cm)</label>
+              <input
+                type="text"
+                id="height"
+                name="height"
+                inputmode="numeric"
+                pattern="[0-9]*"
+              />
+            </div>
+
+            <div class="input-box">
+              <label for="weight">몸무게 (kg)</label>
+              <input
+                type="text"
+                id="weight"
+                name="weight"
+                inputmode="numeric"
+                pattern="[0-9]*"
+              />
+            </div>
+          </div>
+
+          <!-- 이동 버튼 -->
+          <button
+            class="next-button"
+            type="button"
+            onclick="showSecondScreen()"
+          >
+            →
+          </button>
+        </form>
+      </div>
+      <div class="left-panel second-panel hidden">
+        <h1>Service Name</h1>
+        <p>을 이용할 계정을 만드세요!</p>
+      </div>
+      <div class="right-panel second-panel hidden">
+        <form class="signup-form">
+          <label>이름</label>
+          <input type="text" />
+
+          <div class="label-row">
+            <label>이메일</label>
+            <button class="inline-button" type="button">인증코드 받기</button>
+          </div>
+          <input type="email" />
+
+          <div class="label-row">
+            <label>이메일 6자리 인증코드</label>
+            <button type="button" class="inline-button" onclick="verifyCode()">
+              인증하기
+            </button>
+          </div>
+          <div class="code-input-wrapper">
+            <input type="text" id="code-input" maxlength="6" />
+            <span id="code-status"></span>
+          </div>
+
+          <label>비밀번호</label>
+          <input type="password" />
+
+          <button class="login-button" type="button">계정 만들기</button>
+
+          <div class="divider"><span>OR</span></div>
+
+          <div class="social-login">
+            <button class="google-btn" type="button">
+              <img
+                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+              />Google로 가입
+            </button>
+            <button class="kakao-btn" type="button">
+              <img src="kakao-icon.png" />카카오톡으로 가입
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="../scripts/signup.js"></script>
+  </body>
+</html>

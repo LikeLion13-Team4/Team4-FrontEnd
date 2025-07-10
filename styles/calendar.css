@@ -1,9 +1,8 @@
 /* 캘린더 전체 래퍼 */
 .grass-calendar .calendar {
-  width: 280px;
-  background: #e6f5f0;
+  width: 300px;
   border-radius: 16px;
-  padding: 16px;
+  padding: 2px;
   box-sizing: border-box;
   font-family: sans-serif;
 }
@@ -132,7 +131,11 @@
   grid-row: 1;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  column-gap: 16px;
+  width: 100%; /* 래퍼 너비만큼 꽉 채우기 */
+}
+
+.mp-weekdays {
+  margin-left: 20px;
 }
 
 /* ③ 슬롯 영역 (2행 가운데 6칸) */
@@ -149,7 +152,7 @@
 .calendar-grid .filler-cell {
   grid-row: 1;
   background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 12px;
+  border-radius: 120002px;
 }
 
 /* ⑤ 내비 버튼 (2행 양 끝) */
@@ -192,33 +195,10 @@
 }
 
 /* 2) .mp-col 에도 동일한 높이를 물려주고 flex 컨테이너로 유지 */
-.mp-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* 수평 정렬 */
-  height: 100%; /* 부모인 .items-container의 400px을 물려받습니다 */
-  gap: 8px;
-}
-
-/* 3) 플러스 슬롯에만 margin-top: auto 를 주어 아래로 밀어내기 */
-.mp-col .slot.empty {
-  margin-top: auto;
-}
 
 /* .mp-col 은 flex 컨테이너, column 방향, 위에서부터 쌓이도록 */
-.mp-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* ← 여기가 핵심 */
-  align-items: center;
-  gap: 8px;
-}
 
 /* 빈 슬롯에는 margin‐top:auto 를 없애 주세요 */
-.mp-col .slot.empty {
-  margin-top: 0;
-}
 
 /* ① 컬럼 컨테이너가 부모 높이에 맞춰 stretch 되는 걸 막고, 
       콘텐츠 높이만큼만 갖도록 상단 정렬 */
@@ -229,12 +209,6 @@
 }
 
 /* ② 컬럼 내부는 위에서부터 채워지도록, 여백 자동 배치는 없애기 */
-.mp-col {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* ← 기본값 (stretch 였다면 명시) */
-  gap: 8px;
-}
 
 /* ③ 빈 슬롯(+ 버튼)에 있던 자동 마진 제거 */
 .mp-col .slot.empty {
@@ -243,7 +217,7 @@
 
 /* 출석한 날 (attended) 스타일 */
 .calendar .days .day.attended {
-  background-color: #333; /* 검은 배경 */
+  background-color: #441c1c; /* 검은 배경 */
   color: #fff; /* 흰 글자 */
 }
 

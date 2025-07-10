@@ -82,7 +82,7 @@
   position: relative; /* 버튼의 절대 위치 기준 */
   width: 120px;
   height: 120px;
-  background: #f0f0f0;
+  background: #bf3b3b;
   border-radius: 16px;
   margin: 0 auto 16px;
   overflow: hidden; /* 박스를 넘어가는 이미지 잘라내기 */

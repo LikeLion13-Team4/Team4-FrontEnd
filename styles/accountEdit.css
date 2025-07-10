@@ -79,7 +79,7 @@
 .account-arrow-btn {
   position: absolute;
   right: 16px; /* 컨테이너 우측 여백 만큼 띄움 */
-  top: 50%; /* 세로 중앙 */
+  top: 70%; /* 세로 중앙 */
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
@@ -104,8 +104,10 @@
 
 .account-arrow-btn {
   position: absolute;
-  top: 1rem;
+  top: 50%;
   right: 1rem;
+  width: 50px;
+  height: 50px;
   background: none;
   border: none;
   cursor: pointer;

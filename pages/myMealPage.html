@@ -5,13 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>나의 식단</title>
-    <link rel="stylesheet" href="/styls/entire.css" />
-    <link rel="stylesheet" href="/styls/style.css" />
-    <link rel="stylesheet" href="/styls/calendar.css" />
+    <link rel="stylesheet" href="../styles/entire.css" />
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/calendar.css" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
     <script src="../scripts/script.js" defer></script>
-    <script src="/scripts/calendar.js" defer></script>
-    <script src="/scripts/mealAdd.js" defer></script>
+    <script src="../scripts/calendar.js" defer></script>
+    <script src="../scripts/mealAdd.js" defer></script>
 
 
 
@@ -22,18 +22,30 @@
     <div class="container">
 
         <!-- 사이드바 -->
+        <!-- 사이드바 -->
         <aside class="sidebar">
             <nav>
                 <ul>
                     <li>
-                        <a href="#" class="active"> <img class="side-icon" src="/images/myMeal.svg">나의 식단</a>
+                        <a href="../pages/myMealPage.html" class="active"> <img class="side-icon"
+                                src="/images/myMeal.svg">나의 식단</a>
                     </li>
-                    <li><a href="#"><img class="side-icon" src="../images/report.svg"></i> 리포트</a></li>
-                    <li><a href="#"><img class="side-icon" src="../images/community.svg"> 커뮤니티</a></li>
-                    <li><a href="../pages/myPage.html"><img class="side-icon" src="../images/myPage.svg"> 마이페이지</a></li>
+                    <li>
+                        <a href="../pages/report.html">
+                            <img src="/images/report.svg" class="side-icon" /> 리포트
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pages/community.html">
+                            <img src="/images/community.svg" class="side-icon" /> 커뮤니티
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pages/myPage.html"><img class="side-icon" src="/images/myPage.svg">마이페이지</a>
+                    </li>
                 </ul>
             </nav>
-            <a href="#" class="logout-link"><img class="side-icon" src="../images/exit.svg">로그아웃</a>
+            <a href="#" class="logout-link"><img class="side-icon" src="/images/exit.svg">로그아웃</a>
         </aside>
 
         <!-- 메인 콘텐츠 -->

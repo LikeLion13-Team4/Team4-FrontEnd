@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>리포트 로딩 중</title>
+    <link rel="stylesheet" href="../styles/report.css" />
+    <link rel="stylesheet" href="../styles/entire.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- 왼쪽 사이드바 -->
+      <aside class="sidebar">
+        <nav>
+          <ul>
+            <li>
+              <a href="#">
+                <img src="icons/meal.svg" class="side-icon" /> 나의 식단
+              </a>
+            </li>
+            <li>
+              <a href="report.html" class="active">
+                <img src="icons/report.svg" class="side-icon" /> 리포트
+              </a>
+            </li>
+            <li>
+              <a href="community.html">
+                <img src="icons/community.svg" class="side-icon" /> 커뮤니티
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <img src="icons/home.svg" class="side-icon" /> 마이페이지
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <a href="#" class="logout-link">
+          <img src="icons/logout.svg" class="side-icon" /> 로그아웃
+        </a>
+      </aside>
+      <main class="report-content">
+        <div class="report-flex-wrapper">
+          <!-- 왼쪽 리포트 로딩 박스 -->
+          <section class="summary-cards">
+            <h1
+              class="skeleton skeleton-text"
+              style="width: 40%; height: 40px; margin-bottom: 24px"
+            ></h1>
+
+            <!-- 상단 요약 카드 -->
+            <div class="summary-top-row" style="gap: 24px">
+              <div class="summary-card" style="height: 96px; padding: 16px">
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 60%; height: 18px"
+                ></div>
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 40%; height: 14px; margin-top: 16px"
+                ></div>
+              </div>
+              <div class="summary-card" style="height: 96px; padding: 16px">
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 55%; height: 18px"
+                ></div>
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 45%; height: 14px; margin-top: 16px"
+                ></div>
+              </div>
+              <div class="summary-info" style="height: 96px; padding: 16px">
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 50%; height: 18px"
+                ></div>
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 35%; height: 14px; margin-top: 16px"
+                ></div>
+              </div>
+            </div>
+
+            <!-- 그래프 및 수치 -->
+            <div class="nutrient-graph-section" style="margin-top: 40px">
+              <div class="donut-box">
+                <div
+                  class="skeleton skeleton-text"
+                  style="
+                    width: 60%;
+                    height: 28px;
+                    margin-top: 40px;
+                    margin-bottom: 20px;
+                  "
+                ></div>
+                <div class="donut-placeholder"></div>
+              </div>
+
+              <div class="nutrient-breakdown" style="gap: 20px">
+                <div class="nutrient-box" style="height: 72px; padding: 16px">
+                  <div
+                    class="skeleton skeleton-text"
+                    style="width: 60%; height: 16px"
+                  ></div>
+                  <div
+                    class="skeleton skeleton-text"
+                    style="width: 40%; height: 12px; margin-top: 12px"
+                  ></div>
+                </div>
+                <div class="nutrient-box" style="height: 72px; padding: 16px">
+                  <div
+                    class="skeleton skeleton-text"
+                    style="width: 70%; height: 16px"
+                  ></div>
+                  <div
+                    class="skeleton skeleton-text"
+                    style="width: 30%; height: 12px; margin-top: 12px"
+                  ></div>
+                </div>
+                <div class="nutrient-box" style="height: 72px; padding: 16px">
+                  <div
+                    class="skeleton skeleton-text"
+                    style="width: 50%; height: 16px"
+                  ></div>
+                  <div
+                    class="skeleton skeleton-text"
+                    style="width: 35%; height: 12px; margin-top: 12px"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI 조언 -->
+            <div class="ai-advice-wrapper" style="margin-top: 40px">
+              <div class="ai-advice" style="min-height: 140px; padding: 24px">
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 30%; height: 24px; margin-bottom: 20px"
+                ></div>
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 100%; height: 20px; margin-bottom: 12px"
+                ></div>
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 90%; height: 20px; margin-bottom: 12px"
+                ></div>
+                <div
+                  class="skeleton skeleton-text"
+                  style="width: 80%; height: 20px"
+                ></div>
+              </div>
+              <button
+                class="ai-button-outside skeleton-box"
+                style="width: 180px; height: 42px; margin-top: 16px"
+              ></button>
+            </div>
+          </section>
+
+          <!-- 오른쪽 캘린더 -->
+          <div class="calendar-section">
+            <!-- 월간 캘린더 -->
+            <div class="calendar-box">
+              <div class="calendar-header">
+                <span class="year" id="year">2025</span>
+
+                <div class="month-nav">
+                  <button class="nav-arrow" id="prevMonth">&lt;</button>
+                  <span class="month-title" id="monthName">7월</span>
+                  <button class="nav-arrow" id="nextMonth">&gt;</button>
+                </div>
+              </div>
+              <table class="calendar-table">
+                <thead>
+                  <tr>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>T</th>
+                    <th>W</th>
+                    <th>T</th>
+                    <th>F</th>
+                    <th>S</th>
+                  </tr>
+                </thead>
+                <tbody id="calendar-body">
+                  <!-- JavaScript로 동적으로 채워질 자리 -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- 주간 캘린더 -->
+            <div
+              class="calendar-placeholder"
+              id="calendar-week"
+              style="display: none"
+            >
+              주간 캘린더 표시 영역
+            </div>
+
+            <div
+              class="calendar-placeholder"
+              id="calendar-day"
+              style="display: none"
+            >
+              일간 캘린더 표시 영역
+            </div>
+
+            <button class="generate-report">리포트 만들기</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script src="../scripts/report_loading.js"></script>
+  </body>
+</html>

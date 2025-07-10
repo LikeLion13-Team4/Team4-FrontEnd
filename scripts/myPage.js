@@ -209,3 +209,21 @@ document.addEventListener("DOMContentLoaded", () => {
     deletedModal.classList.add("hidden");
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  // “계정 설정” 버튼만 잡기 (클래스, 텍스트, id 등 원하는 방식)
+  const accountTabBtn = document.querySelector(
+    ".panel-group-detail .tab:first-child"
+  );
+  // .profile-mode 내의 각 모드 선택
+  const viewMode = document.querySelector(".profile-mode .view-mode");
+  const editMode = document.querySelector(".profile-mode .edit-mode");
+  const accountMode = document.querySelector(".profile-mode .account-mode");
+
+  accountTabBtn.addEventListener("click", function () {
+    // 계정설정만 보이고 나머지는 숨김
+    viewMode.classList.add("hidden");
+    editMode.classList.add("hidden");
+    accountMode.classList.remove("hidden");
+  });
+});

@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
-    <link rel="stylesheet" href="/styls/entire.css" />
-    <link rel="stylesheet" href="/styls/myPage.css" />
-    <link rel="stylesheet" href="/styls/myProfileEdit.css">
-    <link rel="stylesheet" href="/styls/accountEdit.css">
-    <link rel="stylesheet" href="/styls/myActivities.css">
-    <link rel="stylesheet" href="/styls/posts.css">
+    <link rel="stylesheet" href="../styles/entire.css" />
+    <link rel="stylesheet" href="../styles/myPage.css" />
+    <link rel="stylesheet" href="../styles/myProfileEdit.css">
+    <link rel="stylesheet" href="../styles/accountEdit.css">
+    <link rel="stylesheet" href="../styles/myActivities.css">
+    <link rel="stylesheet" href="../styles/posts.css">
 
 
 </head>
@@ -26,10 +26,14 @@
                         <a href="../pages/myMealPage.html"> <img class="side-icon" src="/images/myMeal.svg">나의 식단</a>
                     </li>
                     <li>
-                        <a href="#"><img class="side-icon" src="/images/report.svg"></i> 리포트</a>
+                        <a href="../pages/report.html">
+                            <img src="/images/report.svg" class="side-icon" /> 리포트
+                        </a>
                     </li>
                     <li>
-                        <a href="#"><img class="side-icon" src="/images/community.svg"> 커뮤니티</a>
+                        <a href="../pages/community.html">
+                            <img src="/images/community.svg" class="side-icon" /> 커뮤니티
+                        </a>
                     </li>
                     <li>
                         <a href="../pages/myPage.html" class="active"><img class="side-icon"
@@ -45,13 +49,14 @@
             <!-- 좌측: 신체정보 카드 -->
             <section class="info-card profile-mode">
                 <header class="info-header">
-                    <div class="bodyInfoIcon">
+                    <button class="topOfTopBtn">
                         <span class="icon-user"><img src="../images/bodyInfo.svg"></span>
                         <h2>프로필</h2>
-                    </div>
+                    </button>
+
                     <button class="btn-settings">
                         <span class="icon-gear">
-                            <p>계정설정</p>
+                            <span class="gear-label">계정설정</span>
                             <img src="../images/settingbtn.svg">
                         </span>
                     </button>
@@ -201,8 +206,11 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="btn-edit">편집</button>
-                            <button type="button" class="delete-account">계정 삭제</button>
+                            <div class="my-btns">
+                                <button type="button" class="btn-edit2">편집</button>
+                                <button type="button" class="delete-account">계정 삭제</button>
+                            </div>
+
                         </form>
                     </div>
 
@@ -261,147 +269,109 @@
             </section>
 
 
-            <!-- ② 저장한 게시물 뷰 (초기엔 숨김) -->
+            <!-- 저장한 게시물 -->
             <section class="info-card saved-mode hidden">
                 <header class="info-header">
                     <div class="bodyInfoIcon">
                         <span class="icon-star"><img src="../images/star.svg"></span>
                         <h2>저장한 게시물</h2>
                     </div>
-                    <button class="btn-settings">
-                        <span class="icon-delete-all">선택 삭제</span>
-                    </button>
                 </header>
-                <div class="saved-content">
-                    <!-- 여기 아래에 “저장한 게시물” 리스트를 렌더링 -->
+                <button class="btn-settings">
+                    <span class="icon-delete-all">선택 삭제</span>
+                </button>
+                <div class="card-pagination">
+                    <button class="page-prev" style="display:none;">&#60;</button>
+                    <div class="saved-content"></div>
+                    <button class="page-next" style="display:none;">&#62;</button>
                 </div>
             </section>
 
 
 
-            <!-- 좋아요한 게시물 뷰 (초기엔 숨김) -->
+
+
+            <!-- 좋아요한 게시물 -->
             <section class="info-card liked-mode hidden">
                 <header class="info-header">
                     <div class="bodyInfoIcon">
                         <span class="icon-heart"><img src="../images/heart.svg"></span>
                         <h2>좋아요한 게시물</h2>
                     </div>
-                    <button class="btn-settings">선택 삭제</button>
                 </header>
-                <div class="liked-content">
-                    <!-- 여기 좋아요한 리스트 렌더링 -->
+                <!-- 화살표 버튼 포함 컨테이너 -->
+                <div class="card-pagination">
+                    <button class="page-prev-liked" style="display:none;">&#60;</button>
+                    <div class="liked-content"></div>
+                    <button class="page-next-liked" style="display:none;">&#62;</button>
                 </div>
             </section>
 
-            <template id="liked-card-template">
-                <div class="item-card">
-                    <div class="card-text">
-                        <h3 class="card-title"></h3>
-                        <p class="card-body"></p>
-                        <div class="card-tags"></div>
-                    </div>
-                    <div class="card-actions">
-                        <div class="thumbnail"></div>
-                    </div>
-                </div>
-            </template>
 
-            <!-- 내 활동 모드 (새로 추가) -->
+            <!-- 내 게시글 -->
             <section class="info-card activity-mode hidden">
-                <header class="info-header">
-                    <div class="bodyInfoIcon">
+                <header class="info-header" id="my-real-posts">
+                    <div class="myPostsIcon">
                         <span class="icon-clock"><img src="../images/clock.svg"></span>
                         <h2>내 게시글</h2>
                     </div>
-                    <button class="btn-settings">선택 삭제</button>
                 </header>
-                <div class="my-posts-content">
-                    <!-- 여기 좋아요한 리스트 렌더링 -->
+                <button class="btn-settings">
+                    <span class="icon-delete-all">선택 삭제</span>
+                </button>
+                <!-- ▼ 페이지네이션 컨테이너 추가! ▼ -->
+                <div class="card-pagination">
+                    <button class="page-prev-my" style="display:none;">&#60;</button>
+                    <div class="my-posts-content"></div>
+                    <button class="page-next-my" style="display:none;">&#62;</button>
                 </div>
             </section>
 
-            <!-- 카드 템플릿 -->
-            <template id="my-post-card-template">
-                <div class="item-card">
-                    <div class="card-text">
-                        <h3 class="card-title"></h3>
-                        <p class="card-body"></p>
-                        <div class="card-tags"></div>
-                    </div>
-                    <div class="card-actions">
-                        <!-- 체크박스 없이 썸네일만 -->
-                        <div class="thumbnail"></div>
-                    </div>
-                </div>
-            </template>
 
-
-            <!-- ② 댓글 목록 섹션 (처음엔 숨김) -->
+            <!-- 내가 쓴 댓글 -->
             <section class="info-card my-comments-mode hidden">
                 <header class="info-header">
                     <div class="bodyInfoIcon">
                         <span class="icon-comment"><img src="../images/comment.svg" alt=""></span>
                         <h2>내가 쓴 댓글</h2>
                     </div>
-                    <button class="btn-settings">선택 삭제</button>
                 </header>
-                <div class="my-comments-content">
-                    <!-- JS가 댓글 카드들을 채워 넣습니다 -->
+                <!-- ▼ 페이지네이션 컨테이너 추가! ▼ -->
+                <div class="card-pagination">
+                    <button class="page-prev-comments" style="display:none;">&#60;</button>
+                    <div class="my-comments-content"></div>
+                    <button class="page-next-comments" style="display:none;">&#62;</button>
                 </div>
             </section>
 
 
-            <template id="card-template">
-                <div class="item-card">
-                    <div class="card-text">
-                        <!-- 제목 -->
-                        <h3 class="card-title"></h3>
-                        <!-- 본문 -->
-                        <p class="card-body"></p>
-                        <!-- 사진 썸네일 여러 장 -->
-                        <div class="card-images"></div>
-                        <!-- 해시태그 -->
-                        <div class="card-tags"></div>
+
+            <!-- 내가 쓴 게시글 -->
+            <section class="info-card my-posts-mode hidden">
+                <header class="info-header">
+                    <div class="bodyInfoIcon">
+                        <span class="icon-comment"><img src="../images/comment.svg" alt=""></span>
+                        <h2>내가 게시글</h2>
                     </div>
-                    <div class="card-actions">
-                        <!-- 기존에 있던 +N 표시(선택 삭제 등) -->
-                        <div class="thumbnail"></div>
-                    </div>
+                </header>
+                <button class="btn-settings">
+                    <span class="icon-delete-all">선택 삭제</span>
+                </button>
+                <div class="my-comments-content">
+                    <!-- JS가 댓글 카드들을 채워 넣습니다 -->
                 </div>
-            </template>
-
-            <!-- 댓글 카드용 템플릿 (기존 author/time 대신 title 넣음) -->
-            <template id="comment-card-template">
-                <div class="item-card">
-                    <div class="card-text">
-                        <!-- (1) 제목 -->
-                        <h3 class="card-title"></h3>
-                        <!-- (2) 본문 -->
-                        <p class="card-body"></p>
-                        <!-- (3) 해시태그 -->
-                        <div class="card-tags"></div>
-                        <!-- (4) 사진 썸네일 -->
-                        <div class="card-images"></div>
-                    </div>
-                    <!-- (5) +N 썸네일 (사진이 3장 초과일 때 표시) -->
-                    <div class="card-actions">
-                        <div class="thumbnail"></div>
-                    </div>
-                </div>
-            </template>
-
-
-
+            </section>
 
             <!-- 우측: “내 정보 / 내 활동” 서브패널 -->
             <aside class="side-panel">
                 <div class="panel-group">
                     <h4>내 정보</h4>
                     <div class="panel-group-detail">
-                        <button class="tab">계정 설정 <span class="icon-gear"><img src="../images/settingbtn.svg"
-                                    alt=""></span></button>
-                        <button class="tab active">신체 정보 <span class="icon-user"><img
+                        <button class="tab account-tab">
+                            계정 설정 <span class="icon-gear"><img src="../images/settingbtn.svg" alt=""></span></button>
+                        <button class="tab body-info-tab">신체 정보 <span class="icon-user"><img
                                     src="../images/bodyInfo.svg"></span></button>
+
                     </div>
                 </div>
                 <div class="panel-group">
@@ -440,6 +410,31 @@
 
 
 
+    <!-- 게시글 상세 페이지 -->
+    <div id="post-detail-modal" class="post-detail-modal hidden">
+        <div class="post-detail-bg"></div>
+        <div class="post-detail-content">
+            <button class="close-detail-btn">&larr; 게시글 목록</button>
+            <div class="post-detail-main">
+                <div class="post-detail-header">
+                    <span class="post-detail-user">유저A</span>
+                    <span class="post-detail-tags"></span>
+                </div>
+                <h2 class="post-detail-title"></h2>
+                <div class="post-detail-body"></div>
+                <div class="post-detail-images"></div>
+                <div class="post-detail-footer">
+                    <span>좋아요 <span class="post-detail-likes">0</span></span>
+                    <span>댓글 <span class="post-detail-comments">0</span></span>
+                </div>
+                <div class="post-detail-comments-wrap">
+                    <!-- 댓글들 추가 영역 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- 편집 팝업창  -->
     <div id="modal-overlay" class="hidden"></div>
 
@@ -462,6 +457,7 @@
             <button type="button" id="cancel-btn">취소</button>
             <button type="button" id="save-btn">저장</button>
         </div>
+
     </div>
 
 
@@ -498,10 +494,119 @@
 
 
 
+
     <script src="../scripts/myPage.js" defer></script>
     <script src="../scripts/posts.js" defer></script>
     <script src="../scripts/items.js" defer></script>
     <script src="../scripts/updatePosts.js" defer></script>
+    <script src="../scripts/detailPage.js" defer></script>
+
+
+
+
+
+    <!-- 저장/좋아요/내 게시글(공통 카드) -->
+    <template id="card-template">
+        <div class="item-card">
+            <div class="card-text">
+                <h3 class="card-title"></h3>
+                <p class="card-body"></p>
+                <div class="card-tags"></div>
+                <div class="card-images"></div>
+            </div>
+            <div class="card-actions">
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 좋아요 카드 (만약 별도 디자인 원하면) -->
+    <template id="liked-card-template">
+        <div class="item-card">
+            <div class="card-text">
+                <h3 class="card-title"></h3>
+                <p class="card-body"></p>
+                <div class="card-tags"></div>
+            </div>
+            <div class="card-actions">
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 내 게시글 카드 -->
+    <template id="my-post-card-template">
+        <div class="item-card">
+            <div class="card-text">
+                <h3 class="card-title"></h3>
+                <p class="card-body"></p>
+                <div class="card-tags"></div>
+            </div>
+            <div class="card-actions">
+                <input type="checkbox" class="checkbox" />
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 내가 쓴 댓글 카드 -->
+    <template id="comment-card-template">
+        <div class="item-card">
+            <div class="card-text">
+                <h3 class="card-title"></h3>
+                <p class="card-body"></p>
+                <div class="card-tags"></div>
+            </div>
+            <div class="card-actions">
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+    </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 내 게시글 상세 팝업 (바디 맨 아래에 추가) -->
+    <div id="post-detail-popup-overlay" class="popup-overlay hidden">
+        <div class="popup" id="post-detail-popup">
+            <button class="popup-close-btn"
+                style="position:absolute;right:18px;top:14px;font-size:2rem;background:none;border:none;">&times;</button>
+            <div class="popup-tags" id="detail-tags"></div>
+            <h2 id="detail-title"></h2>
+            <div id="detail-body"></div>
+            <div id="detail-images" style="display:flex;gap:10px;margin-bottom:18px;"></div>
+            <div style="display:flex;gap:14px;margin-bottom:10px;">
+                <span id="detail-like"></span>
+                <span id="detail-comment"></span>
+                <span id="detail-save"></span>
+            </div>
+            <!-- 댓글 목록을 위한 영역 추가! -->
+            <div id="detail-comments" style="margin-top:30px;">
+                <h3 style="margin-bottom:10px;">댓글</h3>
+                <div id="detail-comments-list"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
 
 
 </body>

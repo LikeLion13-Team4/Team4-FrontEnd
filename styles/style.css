@@ -22,6 +22,12 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.every-day-grass h1 {
+  font-size: 1.5rem; /* 기본 HTML 폰트 사이즈(16px) 기준으로 40px */
+  line-height: 1.2; /* 원하는 경우 줄 높이도 조절 */
+  color: #7c7877;
+}
+
 /* --- 식단 계획표(.meal-plan) --- */
 .meal-plan {
   background-color: #e0f1ea;
@@ -77,14 +83,20 @@
   display: none;
 }
 .mp-weekdays .day {
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center; /* 세로 가운데 정렬 */
   background-color: #817b7a;
   color: #fff;
   border-radius: 12px;
   text-align: center;
   padding: 25px 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
   flex-shrink: 0;
+  width: 115px; /* 예: 정사각형 칸 */
+  height: 20px; /* 필요시 높이도 설정 */
 }
+
 .mp-weekdays .day.active {
   background-color: #3e3837;
 }
@@ -117,7 +129,7 @@
 }
 /* 입력된 아이템 슬롯 */
 .mp-col .slot.item {
-  width: 100%;
+  width: 80%;
   max-width: 120px;
   height: 70px;
   background: #fff;
@@ -203,8 +215,8 @@
 .mp-weekdays .day,
 .items-container .mp-col {
   display: flex;
+  width: 150px;
   align-items: center; /* 세로 중앙 */
-  justify-content: flex-start;
 }
 
 /* 3) 요일과 슬롯간 간격 (선택) */

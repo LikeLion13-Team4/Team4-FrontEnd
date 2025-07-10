@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리포트</title>
+  <link rel="stylesheet" href="../styles/report.css" />
+  <link rel="stylesheet" href="../styles/entire.css" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- 왼쪽 사이드바 -->
+    <aside class="sidebar">
+      <nav>
+        <ul>
+          <li>
+            <a href="../pages/myMealPage.html"> <img class="side-icon" src="/images/myMeal.svg">나의 식단</a>
+          </li>
+          <li>
+            <a href="../pages/report.html" class="active">
+              <img src="/images/report.svg" class="side-icon" /> 리포트
+            </a>
+          </li>
+          <li>
+            <a href="../pages/community.html">
+              <img src="/images/community.svg" class="side-icon" /> 커뮤니티
+            </a>
+          </li>
+          <li>
+            <a href="../pages/myPage.html"><img class="side-icon" src="/images/myPage.svg">마이페이지</a>
+          </li>
+        </ul>
+      </nav>
+      <a href="#" class="logout-link"><img class="side-icon" src="/images/exit.svg">로그아웃</a>
+
+    </aside>
+
+    <!-- 리포트 본문 -->
+    <main class="report-content">
+      <div class="report-flex-wrapper">
+        <section class="summary-cards">
+          <h1><strong>김멋사</strong> 님의 6월 리포트</h1>
+
+          <!-- 1. 상단 요약 정보 3칸 -->
+          <div class="summary-top-row">
+            <div class="summary-card">
+              <p>총 섭취 칼로리</p>
+              <h2>75,000</h2>
+            </div>
+            <div class="summary-card">
+              <p>일일 평균 섭취 칼로리</p>
+              <h2>2,500</h2>
+            </div>
+            <div class="summary-info">
+              <p>
+                일반적으로 성인 남성의 일일 권장 칼로리 섭취량은<br />
+                2,500 ~ 3,000 kcal 입니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 2. 섭취 비율: 도넛 + 수치 -->
+          <!-- 섭취 비율: 도넛 + 수치 -->
+          <!-- 📌 도넛 그래프 전용 박스 (summary-cards 위에 위치) -->
+          <div class="nutrient-graph-section">
+            <!-- ✅ 도넛 그래프 전용 박스 -->
+            <div class="donut-box">
+              <h2 class="nutrient-title">탄수화물 / 단백질 / 지방<br />섭취 비율</h2>
+              <div id="donut" class="donut-placeholder">
+                <div class="label label-carb">탄수화물</div>
+                <div class="label label-protein">단백질</div>
+                <div class="label label-fat">지방</div>
+              </div>
+            </div>
+
+            <!-- ✅ 비율 수치 표는 따로 -->
+            <div class="nutrient-breakdown">
+              <div class="nutrient-box box-carb">
+                <span class="label">탄수화물</span>
+                <span class="value">45%</span>
+              </div>
+
+              <div class="nutrient-box box-protein">
+                <span class="label">단백질</span>
+                <span class="value">15%</span>
+              </div>
+
+              <div class="nutrient-box box-fat">
+                <span class="label">지방</span>
+                <span class="value">40%</span>
+              </div>
+
+            </div>
+          </div>
+
+
+
+          <!-- 3. AI 조언 -->
+          <div class="ai-advice-wrapper">
+            <div class="ai-advice">
+              <h2>AI 영양사의 조언</h2>
+              <p>
+                일반적으로 권장하는 탄수화물, 단백질, 지방 섭취 비율은 5:3:2 정도예요.<br />
+                00님은 지방 섭취 비율을 조금 줄이고, 단백질을 더 보충해주면 더 균형 잡힌 식단이 될 거예요.<br />
+                저녁 식사로는 000, 000 같은 메뉴를 추천드려요!
+              </p>
+            </div>
+            <button class="ai-button-outside">AI 영양사에게 조언받기</button>
+          </div>
+        </section>
+
+        <!-- 오른쪽 캘린더 패널 -->
+        <div class="calendar-section">
+
+
+          <!-- 월간 캘린더 -->
+          <div class="calendar-box">
+            <div class="calendar-header">
+              <span class="year" id="year">2025</span>
+
+              <div class="month-nav">
+                <button class="nav-arrow" id="prevMonth">&lt;</button>
+                <span class="month-title" id="monthName">7월</span>
+                <button class="nav-arrow" id="nextMonth">&gt;</button>
+              </div>
+            </div>
+            <table class="calendar-table">
+              <thead>
+                <tr>
+                  <th>S</th>
+                  <th>M</th>
+                  <th>T</th>
+                  <th>W</th>
+                  <th>T</th>
+                  <th>F</th>
+                  <th>S</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-body">
+                <!-- JavaScript로 동적으로 채워질 자리 -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 주간 캘린더 -->
+          <div class="calendar-placeholder" id="calendar-week" style="display: none">
+            주간 캘린더 표시 영역
+          </div>
+
+          <div class="calendar-placeholder" id="calendar-day" style="display: none">
+            일간 캘린더 표시 영역
+          </div>
+
+          <button class="generate-report">리포트 만들기</button>
+        </div>
+      </div>
+    </main>
+
+    <script src="../scripts/report.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>비밀번호 재설정</title>
+    <link rel="stylesheet" href="../styles/login.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-panel">
+        <h1>비밀번호를 잊으셨다면</h1>
+      </div>
+
+      <div class="right-panel">
+        <form class="reset-form">
+          <!-- 이메일 -->
+          <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" />
+          </div>
+
+          <!-- 임시 비밀번호 발송 버튼 -->
+          <div class="form-group">
+            <button type="button" class="full-button">
+              이메일로 임시 비밀번호 받기
+            </button>
+          </div>
+
+          <!-- 임시 비밀번호 입력 -->
+          <div class="form-group">
+            <label for="temp-password">임시 비밀번호</label>
+            <input type="password" id="temp-password" />
+          </div>
+
+          <!-- 안내 문구 -->
+          <p style="font-size: 12px; margin-top: -8px; color: #333">
+            로그인 후, 비밀번호를 꼭 변경해주세요!
+          </p>
+
+          <!-- 로그인 버튼 -->
+          <button type="submit" class="login-button">로그인</button>
+
+          <!-- 하단 링크 -->
+        </form>
+      </div>
+    </div>
+    <script src="../scripts/reset.js"></script>
+  </body>
+</html>
