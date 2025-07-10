@@ -1,158 +1,130 @@
+// community.js
+
 // 전역 변수
 const postsPerPage = 10;
 let currentPage = 1;
-let filteredTag = null;
+let totalPages = 1;
 let currentPost = null;
 
-// 게시글 더미 데이터 (댓글 포함)
-const posts = [
-  {
-    author: "유저a",
-    time: "3분 전",
-    title: "ㅇㅇ, ㅇㅇ, ㅇㅇ으로 만들 수 있는 메뉴 추천합니다.",
-    body: "여기 저기 여기 저기 이렇게 저렇게 이렇게 저렇게 하면 됨.",
-    tags: ["식단 추천", "식단 인증"],
-    imageCount: 8,
-    comments: [
-      {
-        user: "댓글러1",
-        text: "좋은 정보 감사합니다!",
-        time: "2분 전",
-        replies: [],
-      },
-      { user: "댓글러2", text: "이거 해볼게요!", time: "1분 전", replies: [] },
-    ],
-    likes: 4,
-    saves: 0,
-    liked: false,
-    saved: false,
-  },
-  ...Array.from({ length: 10 }, (_, i) => ({
-    author: `유저${i + 1}`,
-    time: `${i + 1}시간 전`,
-    title: `${i + 1}번째 식단 추천`,
-    body: `내용 예시입니다.`,
-    tags: ["식단 질문"],
-    imageCount: i + 2,
-    comments: Array.from({ length: (i % 3) + 1 }, (_, j) => ({
-      user: `댓글${j + 1}`,
-      text: `${j + 1}번째 댓글입니다.`,
-      time: "1시간 전",
-      replies: [],
-    })),
-    likes: i,
-    saves: i * 2,
-    liked: false,
-    saved: false,
-  })),
-];
+// 1) 게시글 목록 불러오기 (page, size)
+async function loadPosts(page = 1) {
+  try {
+    const data = await AccessAPI.apiFetch(
+      `/api/v1/posts?page=${page}&size=${postsPerPage}`
+    );
+    if (!data.isSuccess) {
+      return alert("게시글 조회 실패: " + data.message);
+    }
 
+    // 응답 구조 분해
+    const { posts: postList, currentPage: cp, totalPages: tp } = data.result;
+    currentPage = cp;
+    totalPages = tp;
+
+    renderPosts(postList);
+    renderPagination();
+  } catch (err) {
+    console.error("게시글 로드 중 오류:", err);
+    alert("서버 오류로 게시글을 불러올 수 없습니다.");
+  }
+}
+
+// 2) 게시글 렌더링
 function renderPosts(postList) {
   const container = document.getElementById("post-container");
   container.innerHTML = "";
 
-  const filteredPosts = filteredTag
-    ? postList.filter((p) => p.tags.includes(filteredTag))
-    : postList;
-
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-  if (currentPage > totalPages) currentPage = totalPages;
-
-  const startIdx = (currentPage - 1) * postsPerPage;
-  const endIdx = startIdx + postsPerPage;
-  const currentPosts = filteredPosts.slice(startIdx, endIdx);
-
-  currentPosts.forEach((post, index) => {
+  postList.forEach((post) => {
     const card = document.createElement("div");
     card.className = "post-card";
-    card.dataset.index = startIdx + index;
+
+    const time = new Date(post.createdAt).toLocaleString();
 
     card.innerHTML = `
       <div class="post-header">
         <div class="profile-circle"></div>
         <div class="post-info">
-          <div class="post-author">${post.author}</div>
-          <div class="post-time">${post.time}</div>
+          <div class="post-author">${post.authorNickname}</div>
+          <div class="post-time">${time}</div>
         </div>
       </div>
       <div class="post-content">
         <p class="post-title">${post.title}</p>
-        <p class="post-text">${post.body}</p>
+        <p class="post-text">${post.content}</p>
       </div>
       <div class="post-footer">
         <div class="tags">
-          ${post.tags
-            .map((tag) => `<span class="tag"># ${tag}</span>`)
-            .join("")}
+          ${post.tags.map((t) => `<span class="tag"># ${t}</span>`).join("")}
         </div>
-        <div class="images">
-          ${[...Array(Math.min(post.imageCount, 2))]
-            .map(() => '<div class="img-box">IMG</div>')
-            .join("")}
-          ${
-            post.imageCount > 2
-              ? `<div class="img-box">+${post.imageCount - 2}</div>`
-              : ""
-          }
-        </div>
+        ${
+          post.thumbnailImageUrl
+            ? `<div class="images"><img src="${post.thumbnailImageUrl}" class="thumbnail"/></div>`
+            : ""
+        }
       </div>
       <div class="post-actions">
-        <span>❤️ ${post.likes}</span>
-        <span>💬 ${getTotalComments(post)}</span>
-        <span>⭐ ${post.saves}</span>
+        <span>❤️ ${post.likeCount}</span>
+        <span>💬 ${post.commentCount}</span>
+        <span>⭐ ${post.scrapCount}</span>
       </div>
     `;
 
     card.addEventListener("click", () => openDetailPopup(post));
     container.appendChild(card);
   });
-
-  renderPagination(totalPages);
-}
-function getTotalComments(post) {
-  return (
-    post.comments.length +
-    post.comments.reduce((acc, c) => acc + c.replies.length, 0)
-  );
 }
 
-function renderPagination(totalPages) {
-  let pagination = document.querySelector(".pagination");
-  if (!pagination) {
-    pagination = document.createElement("div");
-    pagination.className = "pagination";
-    document.querySelector(".community-wrapper").appendChild(pagination);
+// 3) 페이지네이션 UI
+function renderPagination() {
+  document.getElementById(
+    "page-info"
+  ).textContent = `${currentPage} / ${totalPages}`;
+  const prev = document.getElementById("prev-page");
+  const next = document.getElementById("next-page");
+
+  prev.disabled = currentPage === 1;
+  next.disabled = currentPage === totalPages;
+
+  prev.onclick = () => {
+    if (currentPage > 1) loadPosts(currentPage - 1);
+  };
+  next.onclick = () => {
+    if (currentPage < totalPages) loadPosts(currentPage + 1);
+  };
+}
+
+// 4) 특정 포스트의 댓글 목록 조회
+async function fetchComments(postId) {
+  try {
+    const data = await AccessAPI.apiFetch(`/api/v1/posts/${postId}/comments`);
+    if (!data.isSuccess) {
+      console.warn("댓글 조회 실패:", data.message);
+      return [];
+    }
+    return data.result.map((c) => ({
+      id: c.commentId,
+      user: c.memberNickname,
+      text: c.comment,
+      time: new Date(c.createdAt).toLocaleString(),
+      replies: [], // hierarchy/orders 로 처리 가능
+    }));
+  } catch (err) {
+    console.error("댓글 로드 중 오류:", err);
+    return [];
   }
-  pagination.innerHTML = `
-    <button ${
-      currentPage === 1 ? "disabled" : ""
-    } class="page-btn prev">◀</button>
-    <span class="page-info">${currentPage} / ${totalPages}</span>
-    <button ${
-      currentPage === totalPages ? "disabled" : ""
-    } class="page-btn next">▶</button>
-  `;
-
-  pagination.querySelector(".prev").addEventListener("click", () => {
-    if (currentPage > 1) {
-      currentPage--;
-      renderPosts(posts);
-    }
-  });
-
-  pagination.querySelector(".next").addEventListener("click", () => {
-    if (currentPage < totalPages) {
-      currentPage++;
-      renderPosts(posts);
-    }
-  });
 }
 
+// 5) 댓글 렌더 함수 (기존 renderComments 재사용)
+// 5) 댓글 렌더 함수 (구현 추가)
 function renderComments(comments, container, depth = 0) {
-  container.innerHTML = "";
+  container.innerHTML = ""; // 기존 내용 초기화
+
   comments.forEach((comment) => {
+    // 1) 댓글 박스 생성
     const commentBox = document.createElement("div");
     commentBox.className = depth === 0 ? "comment-box" : "reply-box";
+
+    // 2) 댓글 HTML 채우기
     commentBox.innerHTML = `
       <div class="comment-header">
         <div class="comment-header-left">
@@ -163,7 +135,7 @@ function renderComments(comments, container, depth = 0) {
           </div>
         </div>
         <div class="comment-actions">
-          <button class="like-btn">공감</button>
+          <button class="like-btn">공감 (${comment.likes || 0})</button>
           ${depth === 0 ? '<button class="reply-btn">대댓글</button>' : ""}
         </div>
       </div>
@@ -171,192 +143,104 @@ function renderComments(comments, container, depth = 0) {
       <div class="reply-input-container" style="display: none;"></div>
     `;
 
+    // 3) 대댓글 버튼 토글 (선택)
     const replyBtn = commentBox.querySelector(".reply-btn");
     const replyContainer = commentBox.querySelector(".reply-input-container");
-
     if (replyBtn) {
       replyBtn.addEventListener("click", () => {
-        if (replyContainer.innerHTML) {
+        if (replyContainer.style.display === "block") {
           replyContainer.innerHTML = "";
           replyContainer.style.display = "none";
         } else {
-          replyContainer.style.display = "block";
           replyContainer.innerHTML = `
             <input type="text" class="reply-input" placeholder="답글을 입력하세요." />
             <button class="submit-reply">등록</button>
           `;
+          replyContainer.style.display = "block";
 
+          // (여기서 실제 대댓글 API 호출 로직 추가 가능)
           replyContainer
             .querySelector(".submit-reply")
-            .addEventListener("click", () => {
+            .addEventListener("click", async () => {
               const text = replyContainer
                 .querySelector(".reply-input")
                 .value.trim();
               if (!text) return;
-
-              const reply = { user: "나", time: "방금 전", text, replies: [] };
-              comment.replies.push(reply);
-
-              // 👇 이거 중요! currentPost를 다시 참조해서 반영
-              const postIndex = posts.findIndex((p) => p === currentPost);
-              if (postIndex !== -1) {
-                posts[postIndex] = currentPost;
-              }
-
-              const totalCommentCount =
-                currentPost.comments.length +
-                currentPost.comments.reduce(
-                  (acc, c) => acc + c.replies.length,
-                  0
-                );
-
-              document.getElementById("detail-comments-count").textContent =
-                totalCommentCount;
-
-              renderPosts(posts);
-              openDetailPopup(currentPost);
+              // TODO: POST /comments/{commentId}/replies API 호출 후, 댓글 다시 로드
             });
         }
       });
     }
 
+    // 4) DOM에 추가
     container.appendChild(commentBox);
 
-    if (comment.replies && comment.replies.length > 0) {
-      const replyWrap = document.createElement("div");
-      replyWrap.className = "reply-wrapper";
-      renderComments(comment.replies, replyWrap, depth + 1);
-      commentBox.appendChild(replyWrap);
+    // 5) 재귀 렌더: 대댓글이 있으면
+    if (comment.replies && comment.replies.length) {
+      const replyWrapper = document.createElement("div");
+      replyWrapper.className = "reply-wrapper";
+      commentBox.appendChild(replyWrapper);
+      renderComments(comment.replies, replyWrapper, depth + 1);
     }
   });
 }
 
-function openDetailPopup(post) {
+// 6) 상세 팝업 열기 + 댓글 조회·작성 바인딩
+async function openDetailPopup(post) {
   currentPost = post;
-
-  document.getElementById("detail-author").textContent = post.author;
-  document.getElementById("detail-time").textContent = post.time;
+  // 기본 정보
+  document.getElementById("detail-author").textContent = post.authorNickname;
+  document.getElementById("detail-time").textContent = new Date(
+    post.createdAt
+  ).toLocaleString();
   document.getElementById("detail-title").textContent = post.title;
-  document.getElementById("detail-body").textContent = post.body;
+  document.getElementById("detail-body").textContent = post.content;
   document.getElementById("detail-tags").innerHTML = post.tags
-    .map((tag) => `<span class="tag"># ${tag}</span>`)
+    .map((t) => `<span class="tag"># ${t}</span>`)
     .join("");
-
-  const imageContainer = document.getElementById("detail-images");
-
-  if (post.imageCount > 5) {
-    imageContainer.innerHTML = `
-      <div class="image-carousel-wrapper">
-        <button class="arrow left">◀</button>
-        <div class="image-carousel">
-          ${Array.from(
-            { length: post.imageCount },
-            () => `<div class="img-box">IMG</div>`
-          ).join("")}
-        </div>
-        <button class="arrow right">▶</button>
-      </div>
-    `;
-
-    const carousel = imageContainer.querySelector(".image-carousel");
-    imageContainer.querySelector(".arrow.left").onclick = () => {
-      carousel.scrollBy({ left: -300, behavior: "smooth" });
-    };
-    imageContainer.querySelector(".arrow.right").onclick = () => {
-      carousel.scrollBy({ left: 300, behavior: "smooth" });
-    };
-  } else {
-    imageContainer.innerHTML = `
-      <div class="image-carousel-static">
-        ${Array.from(
-          { length: post.imageCount },
-          () => `<div class="img-box">IMG</div>`
-        ).join("")}
-      </div>
-    `;
-  }
-
-  document.getElementById("detail-likes-count").textContent = post.likes;
-  document.getElementById("detail-saves-count").textContent = post.saves;
+  document.getElementById("detail-likes-count").textContent = post.likeCount;
   document.getElementById("detail-comments-count").textContent =
-    getTotalComments(currentPost);
+    post.commentCount;
+  document.getElementById("detail-saves-count").textContent = post.scrapCount;
 
-  renderComments(post.comments, document.getElementById("detail-comments"));
+  // 이미지
+  const imgCt = document.getElementById("detail-images");
+  imgCt.innerHTML = post.thumbnailImageUrl
+    ? `<img src="${post.thumbnailImageUrl}" class="detail-img"/>`
+    : "";
 
+  // 댓글 불러와서 렌더
+  const comments = await fetchComments(post.postId);
+  renderComments(comments, document.getElementById("detail-comments"));
+
+  // 팝업 보이기
   document.querySelector(".detail-overlay").classList.remove("hidden");
 
-  const likeBtn = document.getElementById("like-btn");
-  likeBtn.classList.toggle("clicked", post.liked);
-  likeBtn.textContent = "좋아요";
-  likeBtn.onclick = function () {
-    post.liked = !post.liked;
-    post.likes += post.liked ? 1 : -1;
-    if (post.likes < 0) post.likes = 0;
-    document.getElementById("detail-likes-count").textContent = post.likes;
-    this.classList.toggle("clicked", post.liked);
-    renderPosts(posts);
+  // 댓글 등록 버튼 바인딩
+  document.getElementById("submit-main-comment").onclick = async () => {
+    const inp = document.getElementById("main-comment-input");
+    const txt = inp.value.trim();
+    if (!txt) return;
+    const res = await AccessAPI.apiFetch(
+      `/api/v1/posts/${post.postId}/comments`,
+      { method: "POST", body: JSON.stringify({ comment: txt }) }
+    );
+    if (!res.isSuccess) return alert("댓글 등록 실패: " + res.message);
+    inp.value = "";
+    const updated = await fetchComments(post.postId);
+    renderComments(updated, document.getElementById("detail-comments"));
+    document.getElementById("detail-comments-count").textContent =
+      updated.length;
   };
 
-  const saveBtn = document.getElementById("save-btn");
-  saveBtn.classList.toggle("clicked", post.saved);
-  saveBtn.textContent = "저장";
-  saveBtn.onclick = function () {
-    post.saved = !post.saved;
-    post.saves += post.saved ? 1 : -1;
-    if (post.saves < 0) post.saves = 0;
-    document.getElementById("detail-saves-count").textContent = post.saves;
-    this.classList.toggle("clicked", post.saved);
-    renderPosts(posts);
+  // 닫기 바인딩
+  document.querySelector(".close-detail").onclick = () => {
+    document.querySelector(".detail-overlay").classList.add("hidden");
   };
 }
 
+// 7) 최초 로드
 document.addEventListener("DOMContentLoaded", () => {
-  renderPosts(posts);
-  const postContentInput = document.getElementById("postContent");
-  const charCount = document.getElementById("charCount");
-
-  if (postContentInput && charCount) {
-    postContentInput.addEventListener("input", () => {
-      charCount.textContent = `${postContentInput.value.length} / 2000`;
-    });
-  }
-  document.querySelectorAll(".hashtags .tag").forEach((tagBtn) => {
-    tagBtn.addEventListener("click", () => {
-      filteredTag = tagBtn.dataset.tag;
-      currentPage = 1;
-      document.getElementById("tag-title").textContent = `# ${filteredTag}`;
-      renderPosts(posts);
-    });
-  });
-
-  document.querySelector(".write-btn").addEventListener("click", () => {
-    document.querySelector(".popup-overlay").style.display = "flex";
-  });
-
-  document.querySelector(".cancel-btn").addEventListener("click", () => {
-    document.querySelector(".popup-overlay").style.display = "none";
-  });
-
-  document.querySelector(".close-detail").addEventListener("click", () => {
-    document.querySelector(".detail-overlay").classList.add("hidden");
-  });
-
-  document
-    .getElementById("submit-main-comment")
-    .addEventListener("click", () => {
-      const input = document.getElementById("main-comment-input");
-      const text = input.value.trim();
-      if (!text) return;
-      currentPost.comments.push({
-        user: "나",
-        time: "방금 전",
-        text,
-        replies: [],
-      });
-      input.value = "";
-      document.getElementById("detail-comments-count").textContent =
-        currentPost.comments.length;
-      renderPosts(posts);
-      openDetailPopup(currentPost);
-    });
+  loadPosts(1);
+  // 태그 필터, 글쓰기 팝업 등 나머지 이벤트도 여기에 바인딩
 });

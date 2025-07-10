@@ -39,7 +39,6 @@ nextBtn.addEventListener("click", () => {
   currentDate.setMonth(currentDate.getMonth() + 1);
   updateMonthDisplay();
 });
-
 // 달력 렌더링 함수
 function renderCalendar() {
   const year = currentDate.getFullYear();
@@ -68,43 +67,4 @@ function renderCalendar() {
     }
     calendarBody.appendChild(row);
   }
-}
-
-// 초기 실행
-updateMonthDisplay();
-function updateDonutGraph(carbs, protein, fat) {
-  const total = carbs + protein + fat;
-  const carbPercent = (carbs / total) * 100;
-  const proteinPercent = (protein / total) * 100;
-  const fatPercent = 100 - carbPercent - proteinPercent;
-
-  const donut = document.getElementById("donut");
-  const outerRadius = 135;
-  const innerRadius = 90 / 2; // .donut::before 의 중심 반지름
-  const labelRadius = (outerRadius + innerRadius) / 2;
-  const centerX = outerRadius;
-  const centerY = outerRadius;
-
-  // 배경 업데이트
-  donut.style.background = `conic-gradient(
-    #5c5452 0% ${carbPercent}%,
-    #bba9a5 ${carbPercent}% ${carbPercent + proteinPercent}%,
-    #dbd0cd ${carbPercent + proteinPercent}% 100%
-  )`;
-
-  function setLabelPosition(selector, startPercent, segmentPercent) {
-    const angle = (startPercent + segmentPercent / 2) * 3.6;
-    const rad = (angle - 90) * (Math.PI / 180); // 위쪽(12시) 기준 보정
-
-    const x = centerX + labelRadius * Math.cos(rad);
-    const y = centerY + labelRadius * Math.sin(rad);
-
-    const label = donut.querySelector(selector);
-    label.style.left = `${x}px`;
-    label.style.top = `${y}px`;
-  }
-
-  setLabelPosition(".label-carb", 0, carbPercent);
-  setLabelPosition(".label-protein", carbPercent, proteinPercent);
-  setLabelPosition(".label-fat", carbPercent + proteinPercent, fatPercent);
 }

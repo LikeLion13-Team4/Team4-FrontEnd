@@ -59,16 +59,29 @@ class AttendanceCalendar {
 
   // ▶ 더미 API 호출 함수 (Promise 반환)
   // 실제 API 준비되면 이 부분만 fetch 로 교체하세요.
-  simulateApiCheck(dateString) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const day = +dateString.split("-")[2];
-        resolve({
-          isSuccess: true,
-          result: day % 3 !== 0, // 예시: 3일마다 false
-        });
-      }, 30);
-    });
+  // ▶ 더미 대신 실제 API 호출
+  async simulateApiCheck(dateString) {
+    try {
+      // 1) 실제 API 호출
+      const res = await AccessAPI.apiFetch(
+        `/api/v1/meals/check?date=${dateString}`
+        // GET 이 기본이므로 { method: "GET" } 옵션은 생략 가능
+      );
+
+      // 2) API 스펙에 맞춰 true/false 리턴
+      //    res = { isSuccess: boolean, code, message, result: boolean }
+      return {
+        isSuccess: res.isSuccess,
+        result: Boolean(res.result),
+      };
+    } catch (err) {
+      console.error("출석 확인 API 오류", err);
+      // 3) 에러가 나도 달력 렌더링이 멈추지 않도록 fallback
+      return {
+        isSuccess: false,
+        result: false,
+      };
+    }
   }
 
   async render() {

@@ -1,0 +1,46 @@
+<!-- attendance-check.html -->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>출석 여부 확인 테스트</title>
+</head>
+
+<body>
+    <label for="attendance-date">날짜 선택:</label>
+    <input type="date" id="attendance-date" />
+
+    <button id="check-attendance-btn" type="button">
+        출석 여부 확인
+    </button>
+
+    <script src="../scripts/accessApi.js"></script>
+    <script>
+        document.getElementById("check-attendance-btn")
+            .addEventListener("click", async () => {
+                const date = document.getElementById("attendance-date").value;
+                if (!date) {
+                    return alert("날짜를 선택해주세요.");
+                }
+
+                try {
+                    // GET /api/v1/meals/check?date=YYYY-MM-DD
+                    const data = await AccessAPI.apiFetch(
+                        `/api/v1/meals/check?date=${date}`,
+                        { method: "GET" }
+                    );
+
+                    console.log("출석여부 응답 전체:", data);
+                    alert(
+                        `출석여부: ${data.isSuccess ? data.result : "(실패) " + data.message}`
+                    );
+                } catch (err) {
+                    console.error("출석 확인 중 오류:", err);
+                    alert("출석 확인 중 오류가 발생했습니다.");
+                }
+            });
+    </script>
+</body>
+
+</html>

@@ -172,6 +172,53 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.classList.add("hidden");
   });
 });
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const data = await AccessAPI.apiFetch("/api/v1/members");
+
+    if (data.isSuccess && data.result) {
+      const { nickname, email, gender, birthday, height, weight, imageUrl } =
+        data.result;
+
+      console.log("API 응답 전체:", data);
+      console.log("nickname 확인:", nickname); // ✅ 구조분해 이후에 위치
+
+      // 🔹 프로필 카드 영역 채우기
+      document.getElementById("nickname").textContent = nickname;
+      document.getElementById("gender").textContent =
+        gender === "MALE" ? "남" : "여";
+      document.getElementById("height").textContent = `${height} cm`;
+      document.getElementById("weight").textContent = `${weight} kg`;
+
+      // 🔹 나이 계산
+      const birthDate = new Date(birthday);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+      document.getElementById("age").textContent = `만 ${age}세`;
+
+      // 🔹 프로필 이미지 설정
+      const profilePic = document.querySelector(".profile-pic");
+      if (imageUrl && profilePic) {
+        profilePic.style.backgroundImage = `url(${imageUrl})`;
+        profilePic.style.backgroundSize = "cover";
+        profilePic.style.backgroundPosition = "center";
+      }
+
+      // ✅ account-view 영역 채우기
+      document.getElementById("account-nickname").value = nickname;
+      document.getElementById("account-email").value = email;
+      document.getElementById("account-password").value = "************";
+    } else {
+      alert("회원 정보를 불러오지 못했습니다.");
+      console.error("API 실패 응답:", data);
+    }
+  } catch (err) {
+    alert("서버와 통신 중 오류가 발생했습니다.");
+    console.error("회원 정보 요청 실패:", err);
+  }
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("confirm-overlay");

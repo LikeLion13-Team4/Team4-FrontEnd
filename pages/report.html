@@ -47,11 +47,11 @@
           <div class="summary-top-row">
             <div class="summary-card">
               <p>총 섭취 칼로리</p>
-              <h2>75,000</h2>
+              <h2 id="totalCalories">75,000</h2>
             </div>
             <div class="summary-card">
               <p>일일 평균 섭취 칼로리</p>
-              <h2>2,500</h2>
+              <h2 id="averageCalories">2,500</h2>
             </div>
             <div class="summary-info">
               <p>
@@ -79,17 +79,17 @@
             <div class="nutrient-breakdown">
               <div class="nutrient-box box-carb">
                 <span class="label">탄수화물</span>
-                <span class="value">45%</span>
+                <span class="value" id="carbsRatio">45%</span>
               </div>
 
               <div class="nutrient-box box-protein">
                 <span class="label">단백질</span>
-                <span class="value">15%</span>
+                <span class="value" id="proteinRatio">15%</span>
               </div>
 
               <div class="nutrient-box box-fat">
                 <span class="label">지방</span>
-                <span class="value">40%</span>
+                <span class="value" id="fatRatio">40%</span>
               </div>
 
             </div>
@@ -101,13 +101,13 @@
           <div class="ai-advice-wrapper">
             <div class="ai-advice">
               <h2>AI 영양사의 조언</h2>
-              <p>
+              <p id="feedbackText">
                 일반적으로 권장하는 탄수화물, 단백질, 지방 섭취 비율은 5:3:2 정도예요.<br />
                 00님은 지방 섭취 비율을 조금 줄이고, 단백질을 더 보충해주면 더 균형 잡힌 식단이 될 거예요.<br />
                 저녁 식사로는 000, 000 같은 메뉴를 추천드려요!
               </p>
             </div>
-            <button class="ai-button-outside">AI 영양사에게 조언받기</button>
+            <button class="ai-button-outside" id="getAdviceButton">AI 영양사에게 조언받기</button>
           </div>
         </section>
 
@@ -157,6 +157,13 @@
         </div>
       </div>
     </main>
+
+    <script src="../scripts/accessApi.js"></script>
+
+    <script src="../scripts/reportValue.js"></script>
+
+
+    <script src="../scripts/aiAdvise.js"></script>
 
     <script src="../scripts/report.js"></script>
 </body>
