@@ -433,3 +433,71 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const deleteAccountBtn = document.querySelector(".delete-account");
+  const overlay = document.getElementById("confirm-overlay");
+  const confirmModal = document.getElementById("confirm-modal");
+  const deletedModal = document.getElementById("deleted-modal");
+  const cancelBtn = document.getElementById("confirm-cancel");
+  const confirmDeleteBtn = document.getElementById("confirm-delete");
+
+  // 1. 계정 삭제 버튼 클릭 시 모달 열기
+  deleteAccountBtn.addEventListener("click", () => {
+    overlay.classList.remove("hidden");
+    confirmModal.classList.remove("hidden");
+  });
+
+  // 2. 취소 버튼 클릭 시 모달 닫기
+  cancelBtn.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    confirmModal.classList.add("hidden");
+  });
+
+  // 3. 삭제 확정 버튼 클릭 시 DELETE API 요청
+  confirmDeleteBtn.addEventListener("click", async () => {
+    try {
+      const res = await AccessAPI.apiFetch("/api/v1/members", {
+        method: "DELETE",
+      });
+
+      if (res.isSuccess) {
+        // 모달 전환
+        confirmModal.classList.add("hidden");
+        deletedModal.classList.remove("hidden");
+
+        // 2초 후 닫고 리디렉션 또는 로그아웃 처리
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+          deletedModal.classList.add("hidden");
+          // 👉 예: 로그아웃 처리 후 메인 페이지로 이동
+          AccessAPI.clearToken();
+          window.location.href = "/pages/login.html";
+        }, 2000);
+      } else {
+        alert("계정 삭제 실패: " + res.message);
+      }
+    } catch (err) {
+      console.error("계정 삭제 오류:", err);
+      alert("서버 오류로 계정 삭제에 실패했습니다.");
+    }
+  });
+
+  // 4. 오버레이 클릭 시 모달 모두 닫기
+  overlay.addEventListener("click", () => {
+    overlay.classList.add("hidden");
+    confirmModal.classList.add("hidden");
+    deletedModal.classList.add("hidden");
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const bodyInfoTab = document.querySelector(".body-info-tab");
+  const viewMode = document.querySelector(".mode.view-mode");
+  const editMode = document.querySelector(".mode.edit-mode");
+  const accountMode = document.querySelector(".mode.account-mode");
+
+  bodyInfoTab.addEventListener("click", () => {
+    editMode?.classList.add("hidden");
+    accountMode?.classList.add("hidden");
+    viewMode?.classList.remove("hidden");
+  });
+});
