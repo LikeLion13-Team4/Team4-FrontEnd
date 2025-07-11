@@ -181,6 +181,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const { nickname, email, gender, birthday, height, weight, imageUrl } =
         data.result;
 
+      // 🔹 프로필 카드 영역 채우기
       // 프로필 카드 영역 채우기
       document.getElementById("nick-name").textContent = nickname;
       document.getElementById("gender").textContent =

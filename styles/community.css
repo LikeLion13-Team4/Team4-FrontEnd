@@ -720,7 +720,5 @@
   transition: color 0.3s;
   cursor: pointer;
 }
-.like-btn.liked {
-  color: red !important;
-}
+
 /* 기본 버튼 스타일 */
