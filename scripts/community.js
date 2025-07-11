@@ -613,3 +613,10 @@ async function loadMyPosts(page = 1) {
     alert("내 게시글을 불러오는 중 오류가 발생했습니다.");
   }
 }
+const likeBtns = document.querySelectorAll(".like-btn");
+
+likeBtns.forEach((btn) => {
+  btn.addEventListener("click", function () {
+    this.classList.toggle("liked"); // 클릭 시 .liked 클래스 토글
+  });
+});

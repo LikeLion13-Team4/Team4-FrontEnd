@@ -181,8 +181,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const { nickname, email, gender, birthday, height, weight, imageUrl } =
         data.result;
 
-      console.log("nickname 확인:", nickname); // ✅ 이제 올바른 위치
-
       // 🔹 프로필 카드 영역 채우기
       document.getElementById("nick-name").textContent = nickname;
       document.getElementById("gender").textContent =
