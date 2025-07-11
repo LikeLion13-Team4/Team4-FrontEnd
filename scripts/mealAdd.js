@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 0) 회원 정보 조회해서 닉네임 세팅
+  (async function setMealPlanName() {
+    try {
+      const res = await AccessAPI.apiFetch("/api/v1/members");
+      const nickname = res.result.nickname;
+      const el = document.getElementById("meal-plan-name");
+      if (el && nickname) {
+        el.textContent = nickname;
+      }
+    } catch (err) {
+      console.error("회원 정보 조회 실패:", err);
+      // 필요하면 기본값 처리 or UI 노출
+    }
+  })();
+
   // 1) AttendanceCalendar 초기화
   new AttendanceCalendar("attendance-calendar", [
     "2025-06-01",
