@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>나의 식단</title>
+
+    <!-- 전역 스타일 -->
+    <link rel="stylesheet" href="/styls/entire.css" />
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/main.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/main.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- 사이드바 -->
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#" class="active">
+                            <img class="side-icon" src="/images/myMeal.svg" alt="">나의 식단
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img class="side-icon" src="/images/report.svg" alt="">리포트
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img class="side-icon" src="/images/community.svg" alt="">커뮤니티
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/myPage.html">
+                            <img class="side-icon" src="/images/myPage.svg" alt="">마이페이지
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <a href="#" class="logout-link">
+                <img class="side-icon" src="/images/exit.svg" alt="">로그아웃
+            </a>
+        </aside>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+
+    </div>
+
+    </main>
+    </div>
+
+    <!-- 팝업 모달 -->
+    <div id="modal">
+        <div class="modal-content">
+            <div class="form-left">
+                <label>무엇을 먹었나요?
+                    <input type="text" id="foodInput" placeholder="예) 양념 치킨 2마리">
+                </label>
+                <label>특이 사항이 있다면?
+                    <input type="text" id="noteInput" placeholder="예) 닭가슴살만 먹음!">
+                </label>
+            </div>
+            <div class="form-divider"></div>
+            <div class="form-right">
+                <label>칼로리 (kcal)<input type="number" id="calorieInput"></label>
+                <label>탄수화물 (g)<input type="number" id="carbInput"></label>
+                <label>단백질 (g)<input type="number" id="proteinInput"></label>
+                <label>지방 (g)<input type="number" id="fatInput"></label>
+            </div>
+            <div class="actions">
+                <button class="cancel">취소</button>
+                <button class="add">추가</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/main.min.js"></script>
+
+    <!-- 캘린더 + 나머지 로직 (script.js) -->
+    <script src="script.js"></script>
+</body>
+
+</html>

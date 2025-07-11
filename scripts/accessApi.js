@@ -36,7 +36,7 @@
     // 401 Unauthorized 처리
     if (res.status === 401) {
       clearToken();
-      window.location.href = "login.html";
+      window.location.href = "index.html";
       throw new Error("Unauthorized");
     }
 

@@ -391,6 +391,22 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ birthday, gender, height, weight }),
       });
 
+      if (res.isSuccess) {
+        // 모달 전환
+        confirmModal.classList.add("hidden");
+        deletedModal.classList.remove("hidden");
+
+        // 2초 후 닫고 리디렉션 또는 로그아웃 처리
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+          deletedModal.classList.add("hidden");
+          // 👉 예: 로그아웃 처리 후 메인 페이지로 이동
+          AccessAPI.clearToken();
+          window.location.href = "/pages/index.html";
+        }, 2000);
+      } else {
+        alert("계정 삭제 실패: " + res.message);
+
       if (!res.isSuccess) {
         throw new Error(res.message || "업데이트 실패");
       }
