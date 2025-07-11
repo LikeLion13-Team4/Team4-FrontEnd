@@ -244,3 +244,75 @@ document.addEventListener("DOMContentLoaded", () => {
   loadPosts(1);
   // 태그 필터, 글쓰기 팝업 등 나머지 이벤트도 여기에 바인딩
 });
+document.getElementById("search-btn").addEventListener("click", () => {
+  const keyword = document.getElementById("search-input").value.trim();
+  if (!keyword) {
+    alert("검색어를 입력해주세요.");
+    return;
+  }
+  searchPosts(keyword, 1);
+});
+
+async function searchPosts(keyword, page = 1) {
+  try {
+    const params = new URLSearchParams({
+      page,
+      size: postsPerPage,
+      keyword,
+    });
+
+    const data = await AccessAPI.apiFetch(`/api/v1/posts/search?${params}`);
+
+    if (!data.isSuccess) {
+      return alert("검색 실패: " + data.message);
+    }
+
+    const {
+      posts: searchResults,
+      currentPage: cp,
+      totalPages: tp,
+    } = data.result;
+
+    currentPage = cp;
+    totalPages = tp;
+
+    renderPosts(searchResults);
+    renderPagination(); // 필요 시 재활용
+    document.getElementById("tag-title").textContent = `"${keyword}" 검색 결과`;
+  } catch (err) {
+    console.error("검색 중 오류:", err);
+    alert("검색 중 서버 오류가 발생했습니다.");
+  }
+}
+document.getElementById("view-scrap-posts").addEventListener("click", () => {
+  loadScrapPosts(1); // 첫 페이지부터 조회
+});
+
+async function loadScrapPosts(page = 1) {
+  try {
+    const params = new URLSearchParams({
+      page,
+      size: postsPerPage,
+    });
+
+    const data = await AccessAPI.apiFetch(`/api/v1/posts/scraps?${params}`);
+
+    if (!data.isSuccess) {
+      alert("스크랩 게시글 조회 실패: " + data.message);
+      return;
+    }
+
+    const { posts: scrapPosts, currentPage: cp, totalPages: tp } = data.result;
+
+    currentPage = cp;
+    totalPages = tp;
+
+    renderPosts(scrapPosts); // 기존 함수 재활용
+    renderPagination(); // 페이지네이션 유지
+
+    document.getElementById("tag-title").textContent = "⭐ 저장한 게시물";
+  } catch (err) {
+    console.error("스크랩 게시글 로딩 오류:", err);
+    alert("스크랩 게시글 불러오는 중 오류가 발생했습니다.");
+  }
+}

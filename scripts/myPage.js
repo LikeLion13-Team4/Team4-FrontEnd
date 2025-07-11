@@ -175,16 +175,16 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const data = await AccessAPI.apiFetch("/api/v1/members");
+    console.log("API 응답 전체:", data);
 
     if (data.isSuccess && data.result) {
       const { nickname, email, gender, birthday, height, weight, imageUrl } =
         data.result;
 
-      console.log("API 응답 전체:", data);
-      console.log("nickname 확인:", nickname); // ✅ 구조분해 이후에 위치
+      console.log("nickname 확인:", nickname); // ✅ 이제 올바른 위치
 
       // 🔹 프로필 카드 영역 채우기
-      document.getElementById("nickname").textContent = nickname;
+      document.getElementById("nick-name").textContent = nickname;
       document.getElementById("gender").textContent =
         gender === "MALE" ? "남" : "여";
       document.getElementById("height").textContent = `${height} cm`;

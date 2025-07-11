@@ -16,7 +16,8 @@
       <nav>
         <ul>
           <li>
-            <a href="../pages/myMealPage.html"> <img class="side-icon" src="/images/myMeal.svg">나의 식단</a>
+            <a href="../pages/myMealPage.html">
+              <img class="side-icon" src="/images/myMeal.svg" />나의 식단</a>
           </li>
           <li>
             <a href="../pages/report.html">
@@ -29,12 +30,11 @@
             </a>
           </li>
           <li>
-            <a href="../pages/myPage.html"><img class="side-icon" src="/images/myPage.svg">마이페이지</a>
+            <a href="../pages/myPage.html"><img class="side-icon" src="/images/myPage.svg" />마이페이지</a>
           </li>
         </ul>
       </nav>
-      <a href="#" class="logout-link"><img class="side-icon" src="/images/exit.svg">로그아웃</a>
-
+      <a href="#" class="logout-link"><img class="side-icon" src="/images/exit.svg" />로그아웃</a>
     </aside>
 
     <!-- 메인 콘텐츠 -->
@@ -42,9 +42,7 @@
       <!-- 게시글 영역 -->
       <section class="community-wrapper">
         <h2 class="community-title" id="tag-title">전체</h2>
-        <div id="post-container"><!--여기 안에 post 들어옴-->
-
-        </div>
+        <div id="post-container"><!--여기 안에 post 들어옴--></div>
 
         <!-- 페이지네이션 -->
         <div class="pagination">
@@ -69,7 +67,7 @@
           </div>
         </div>
         <div class="quick-actions">
-          <div class="action-box">⭐ 저장한 게시물</div>
+          <div class="action-box" id="view-scrap-posts">⭐ 저장한 게시물</div>
           <div class="action-box">🕒 내 활동</div>
         </div>
         <button class="write-btn">✏ 글 작성하기</button>
@@ -161,7 +159,7 @@
 
   <!-- 스크립트 -->
   <script src="../scripts/accessApi.js"></script>
-
+  <script src="../scripts/logout.js"></script>
   <script src="../scripts/community.js"></script>
 </body>
 
