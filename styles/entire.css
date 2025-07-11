@@ -21,19 +21,22 @@ a {
 }
 .main-content {
   flex-grow: 1;
+  margin-left: 200px;
   box-sizing: border-box;
 }
 
 /* 3. SIDEBAR BASE -------------------------------------------------- */
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 200px;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #5c5452;
   padding: 20px 0;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 .sidebar nav {
   flex-grow: 1;

@@ -1,0 +1,437 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(#c2e5d7, #b6cbc8, #daebf2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: absolute;
+  top: 180px;
+  left: 400px;
+  width: 1120px;
+  height: 720px;
+  display: flex;
+  background-color: transparent;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: -5px 15px 50px rgba(0, 0, 0, 0.22);
+}
+
+.left-panel {
+  flex: 1;
+  background-color: #5c5452;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+}
+
+.left-panel h1 {
+  font-size: 56px;
+  font-weight: 600;
+  color: #cad9d3;
+  margin: 100px 0 10px 0;
+}
+
+.left-panel p {
+  font-size: 32px;
+  font-weight: 500;
+  color: #ffffff;
+  margin-top: 15px;
+}
+
+.right-panel {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(50px);
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 366px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form label {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  color: #000000;
+}
+
+.login-form input {
+  width: 366px;
+  height: 64px;
+  padding: 22px 22px 22px 32px;
+  border-radius: 20px;
+  border: none;
+  background-color: #ffffff;
+  font-size: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+/* 로그인 버튼 */
+.login-button {
+  width: 100%;
+  height: 64px;
+  background-color: #5c5452;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-button:hover {
+  background-color: #3f3a3a;
+}
+
+.extra-options {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.extra-options a {
+  font-weight: 700;
+  color: #000000;
+  text-decoration: underline;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 30px 0;
+  font-size: 14px;
+  color: #000000;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #000000;
+  margin: 0 10px;
+}
+
+/* 소셜 로그인 버튼 */
+.social-login {
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.google-btn,
+.kakao-btn {
+  flex: 1;
+  height: 64px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  border: none;
+}
+
+.google-btn {
+  background-color: #ffffff;
+  color: #000;
+}
+
+.kakao-btn {
+  background-color: #fee500;
+  color: #000;
+}
+
+.google-btn img,
+.kakao-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* 회원가입 링크 */
+.signup-link {
+  margin-top: 25px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.signup-link a {
+  color: #000000;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ===== 비밀번호 재설정 화면 스타일 ===== */
+.reset-form {
+  width: 100%;
+  max-width: 366px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 라벨 + 버튼 나란히 정렬 ===== */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* ===== 라벨 + 버튼 나란히 정렬 ===== */
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.label-row label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000;
+}
+
+/* ===== 입력 필드 ===== */
+.reset-form input,
+.signup-form input {
+  width: 100%;
+  height: 64px;
+  padding: 22px 22px 22px 32px;
+  border-radius: 20px;
+  border: none;
+  background-color: #ffffff;
+  font-size: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 라벨 옆 버튼 (예: 인증코드 받기) ===== */
+.inline-button {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.inline-button:hover {
+  background-color: #f2f2f2;
+}
+
+/* ===== 로그인 버튼 ===== */
+.login-button {
+  width: 100%;
+  height: 64px;
+  background-color: #5c5452;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-button:hover {
+  background-color: #3f3a3a;
+}
+
+/* ===== 하단 링크 ===== */
+.extra-options {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.extra-options a {
+  font-weight: 700;
+  color: #000000;
+  text-decoration: underline;
+}
+
+/* ===== 개인 정보 입력 화면 추가 스타일 ===== */
+.input-form {
+  width: 394px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 공통 라벨 스타일 */
+.input-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* 성별 라디오 버튼 스타일 */
+.gender-options {
+  display: flex;
+  gap: 16px;
+}
+
+.gender-options input[type="radio"] + label {
+  width: 64px;
+  height: 64px;
+  background-color: white;
+  color: #000;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.gender-options input[type="radio"]:checked + label {
+  background-color: #5c5452;
+  color: #fff;
+}
+
+/* 생년월일 select 박스 */
+.birth-select {
+  display: flex;
+  gap: 16px;
+}
+
+.birth-select select {
+  width: 88px;
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+  padding: 8px;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.two-inputs {
+  display: flex;
+  gap: 24px;
+}
+
+.input-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box input {
+  width: 100%;
+  height: 48px;
+  border-radius: 20px;
+  border: none;
+  padding: 14px;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.next-button {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+
+  width: 83.26px;
+  height: 83.26px;
+  border-radius: 50%;
+  border: 4px solid #5c5452;
+  background-color: transparent;
+
+  font-size: 40px;
+  color: #5c5452;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.next-button:hover {
+  background-color: rgba(92, 84, 82, 0.1);
+}
+.full-button {
+  width: 100%;
+  height: 64px;
+  background-color: #ffffff;
+  border: 1px solid #aaa;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.full-button:hover {
+  background-color: #f2f2f2;
+}
+/* ===== 인증 성공/실패 상태 ===== */
+input.success {
+  border: 2px solid #00c2a8; /* 청록색 */
+  background-color: #f0fffc;
+}
+
+input.error {
+  border: 2px solid #f25f5f; /* 빨간색 */
+  background-color: #fff5f5;
+}
+
+#code-status {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 8px;
+  margin-left: 4px;
+}
+
+#code-status.success {
+  color: #00c2a8;
+}
+
+#code-status.error {
+  color: #f25f5f;
+}

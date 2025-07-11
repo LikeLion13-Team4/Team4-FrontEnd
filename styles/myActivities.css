@@ -1,0 +1,258 @@
+.hidden {
+  display: none !important;
+}
+
+/* 공통 카드 스타일 */
+.info-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  max-width: 900px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 모드별 배경 */
+.info-card.saved-mode {
+  background: #edf7f3;
+}
+.info-card.liked-mode {
+  background: #edf7f3;
+}
+.info-card.activity-mode {
+  background: #edf7f3;
+}
+.info-card.my-comments-mode {
+  background: #edf7f3;
+}
+
+/* ======================
+   "오버레이 헤더"는 프로필카드에 적용 X
+====================== */
+
+/* 카드 전체(섹션)에 연한 컬러배경+둥근모서리 */
+section.info-card:not(.profile-mode) {
+  background: rgba(184, 193, 197, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  padding: 0 0 2.5rem 0;
+  margin: 2.2rem auto;
+  max-width: 900px;
+  position: relative;
+  overflow: visible;
+}
+
+/* 오버레이 헤더 */
+section.info-card:not(.profile-mode) .info-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 2.4rem;
+  z-index: 2;
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: 1.23rem;
+  background: rgba(184, 193, 197, 0.37); /* 기본 진한 헤더 배경 */
+}
+
+/* 모드별 헤더 색 */
+section.info-card.saved-mode:not(.profile-mode) .info-header {
+  background: rgba(184, 193, 197, 0.37);
+}
+section.info-card.liked-mode:not(.profile-mode) .info-header {
+  background: rgba(184, 193, 197, 0.37);
+}
+section.info-card.activity-mode:not(.profile-mode) .info-header {
+  background: rgba(184, 193, 197, 0.37);
+}
+section.info-card.my-comments-mode:not(.profile-mode) .info-header {
+  background: rgba(184, 193, 197, 0.37);
+}
+
+section.info-card:not(.profile-mode) .info-header .bodyInfoIcon,
+section.info-card:not(.profile-mode) .info-header .myPostsIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+section.info-card:not(.profile-mode) .info-header h2 {
+  margin: 0;
+  font-size: 1.14rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 선택삭제 버튼: 헤더 오른쪽, 같은 줄 */
+section.info-card:not(.profile-mode) .btn-settings {
+  position: absolute;
+  top: 50%;
+  right: 2.6rem;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1.4px solid #e45b5b;
+  color: #e45b5b;
+  border-radius: 7px;
+  font-size: 0.96rem;
+  font-weight: 500;
+  padding: 0.35rem 1.1rem;
+  z-index: 3;
+  transition: background 0.13s;
+}
+section.info-card:not(.profile-mode) .btn-settings:hover {
+  background: #faecec;
+}
+
+/* 아래 컨텐츠는 헤더 높이만큼 아래로 */
+section.info-card:not(.profile-mode) .saved-content,
+section.info-card:not(.profile-mode) .liked-content,
+section.info-card:not(.profile-mode) .my-posts-content,
+section.info-card:not(.profile-mode) .my-comments-content {
+  padding: 0 2.3rem;
+  margin-top: 90px; /* 헤더 높이+여백 */
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* 카드 내부(리스트)는 흰색, 그림자, 둥근모서리 */
+section.info-card:not(.profile-mode) .item-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.4rem 1.6rem 1.4rem 1.6rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+/* 반응형 */
+@media (max-width: 600px) {
+  .info-card {
+    padding: 1rem;
+  }
+  section.info-card:not(.profile-mode) .info-header {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+  section.info-card:not(.profile-mode) .btn-settings {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.8rem;
+  }
+  section.info-card:not(.profile-mode) .saved-content,
+  section.info-card:not(.profile-mode) .liked-content,
+  section.info-card:not(.profile-mode) .my-posts-content,
+  section.info-card:not(.profile-mode) .my-comments-content {
+    padding: 1rem 0 0 0;
+    gap: 1rem;
+  }
+  section.info-card:not(.profile-mode) .item-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
+
+/* ====================
+   프로필카드(view-mode)는
+   기본 info-card 스타일만 적용됨!
+   (여기에 별도 스타일 원하면 .info-card.profile-mode ...)
+==================== */
+
+section.info-card:not(.profile-mode) {
+  background: rgba(184, 193, 197, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  padding: 0 0 2.5rem 0;
+  margin: 2.2rem auto;
+  max-width: 900px;
+  position: relative;
+  overflow: visible;
+}
+
+/* 헤더(진한바) */
+section.info-card:not(.profile-mode) .info-header {
+  position: relative;
+  z-index: 2;
+  padding: 2.3rem 2.4rem 1.1rem 2.4rem;
+  background: rgba(184, 193, 197, 0.37);
+  border-radius: 24px 24px 0 0;
+  display: flex;
+  align-items: center;
+  font-size: 1.23rem;
+  font-weight: bold;
+}
+
+/* 선택삭제 버튼 - 헤더 아래 오른쪽! */
+section.info-card:not(.profile-mode) .btn-settings {
+  position: absolute;
+  top: 120px; /* header padding-bottom + 내부패딩 감안 */
+  right: 2.7rem;
+  background: transparent;
+  border: 1.4px solid #e45b5b;
+  color: #e45b5b;
+  border-radius: 7px;
+  font-size: 0.96rem;
+  font-weight: 500;
+  padding: 0.35rem 1.1rem;
+  z-index: 3;
+  transition: background 0.13s;
+}
+section.info-card:not(.profile-mode) .btn-settings:hover {
+  background: #faecec;
+}
+
+/* 카드 리스트(헤더, 버튼 아래로 충분히 떨어뜨림) */
+section.info-card:not(.profile-mode) .saved-content,
+section.info-card:not(.profile-mode) .liked-content,
+section.info-card:not(.profile-mode) .my-posts-content,
+section.info-card:not(.profile-mode) .my-comments-content {
+  margin-top: 120px; /* 버튼 밑 여유 공간 */
+  padding: 0 2.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* 카드 아이템(공통) */
+section.info-card:not(.profile-mode) .item-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 1.4rem 1.6rem 1.4rem 1.6rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.btn-settings {
+  border: none !important;
+  background: none;
+  box-shadow: none;
+  margin-left: 200px;
+  padding: 0;
+  white-space: nowrap; /* 줄바꿈 방지 */
+  display: inline-block; /* 한 줄 보장 (필요시) */
+}
+
+.icon-delete-all {
+  color: #b50000;
+  background: none;
+  border: none !important;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: #b50000;
+  text-underline-offset: 5px;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0;
+  margin: 0;
+}

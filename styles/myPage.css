@@ -1,0 +1,448 @@
+/* ① 배경 그라데이션 */
+body {
+  background: linear-gradient(to bottom, #d7f5e3, #e6fff4);
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* ② 메인 컨테이너 분할 */
+.main-content {
+  display: flex;
+  gap: 24px;
+  padding-left: 50px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  padding-right: 80px;
+  box-sizing: border-box;
+}
+
+/* ③ 신체정보 카드 */
+.info-card {
+  flex: 2;
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  padding: 32px;
+  position: relative;
+  min-height: 40rem; /* 원하는 최소 높이 지정 */
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.info-header h2 {
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: #2e3a2f;
+}
+
+.icon-user {
+  /* 유저 아이콘 스프라이트 또는 font-icon */
+  margin-right: 8px;
+}
+
+/* 프로필 이미지 자리 */
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  background: #f0f0f0;
+  border-radius: 16px;
+  margin: 0 auto 16px;
+}
+
+/* 이름 */
+.user-name {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  color: #2e3a2f;
+}
+
+/* 디테일 리스트 */
+.physical-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  row-gap: 16px;
+  column-gap: 8px;
+  margin-bottom: 32px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: center;
+}
+
+.detail-row dt {
+  font-weight: 500;
+  color: #6b7a6b;
+}
+
+.detail-row dd {
+  color: #2e3a2f;
+}
+
+/* 편집 버튼 */
+.btn-edit {
+  display: block;
+  margin: auto;
+  width: 40%;
+  padding: 12px;
+  background: #3e3a36;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* ④ 우측 서브패널 */
+/* 오른쪽 패널 고정 */
+.side-panel {
+  position: fixed; /* 뷰포트에 고정 */
+  top: 0; /* 화면 최상단에 붙임 */
+  right: 0; /* 화면 오른쪽에 붙임 */
+  height: 100vh; /* 뷰포트 높이만큼 */
+  width: 350px; /* 원하는 너비로 조정 */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px; /* 필요에 따라 */
+  box-sizing: border-box;
+}
+
+/* 메인 콘텐츠가 오른쪽 패널 너비만큼 좌측으로 밀리도록 */
+.main-content {
+  margin-right: 300px; /* .side-panel width와 동일하게 */
+  /* 기존 margin/padding 등은 그대로 유지 */
+}
+
+/* 그룹별 스타일 */
+.panel-group {
+  border-radius: 20px;
+}
+
+.panel-group-detail {
+  display: flex;
+  gap: 10px;
+}
+
+.panel-group-detail2 {
+  display: flex;
+  gap: 20px;
+}
+
+.panel-group h4 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #5c5452;
+  padding: 10px;
+  border-radius: 23px;
+}
+
+.recent-activity {
+  display: flex;
+  background-color: #dbe6e4;
+  border-radius: 23px;
+}
+
+.activity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 40px 0px;
+  background: #dde9e6;
+  border: none;
+  border-radius: 23px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #2e3a2f;
+  cursor: pointer;
+}
+
+.icon-star {
+}
+
+.my-activity {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 47%;
+  padding: 50px 0px;
+  background: #edf2f2;
+  border: none;
+  border-radius: 23px;
+  font-size: 0.95rem;
+  color: #2e3a2f;
+  cursor: pointer;
+}
+
+/* 탭/버튼 공통 */
+.tab {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background: #e0f0ea;
+  border: none;
+  border-radius: 23px;
+  margin-bottom: 8px;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #2e3a2f;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #e0f0ea;
+}
+
+/* 서브링크 */
+.sub-links {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+}
+
+.sub-links a {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #6b7a6b;
+  text-decoration: none;
+}
+
+.topOfTopBtn {
+  /* 기본 버튼 스타일 제거 */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit; /* 부모 폰트 속성 상속 */
+  color: inherit; /* 부모 컬러 상속 */
+  cursor: pointer; /* 포인터 커서 */
+  appearance: none; /* 플랫폼 기본 스타일 제거 */
+  -webkit-appearance: none; /* 사파리/크롬 */
+
+  /* 내부를 flex 컨테이너로 만들어 아이콘+텍스트 정렬 */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* 아이콘–텍스트 간격 */
+}
+
+.btn-settings {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  margin-right: 60px;
+  /* 버튼 내부를 inline-flex로 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-settings .icon-gear {
+  /* 아이콘+텍스트 가로 방향으로 */
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px; /* 아이콘–텍스트 사이 간격 */
+}
+
+.gear-img {
+  display: block; /* 이미지는 인라인 블록으로 */
+  width: 20px; /* 원하시는 크기로 조절 */
+  height: auto;
+}
+
+.gear-label {
+  /* 수직 쓰기 모드 해제 (혹시 걸려있다면) */
+  writing-mode: horizontal-tb;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.icon-star,
+.icon-heart,
+.icon-user,
+.icon-clock,
+.icon-gear {
+  display: inline-block; /* width/height가 먹히게 */
+  width: 26px; /* 원하는 픽셀 */
+  height: 26px;
+}
+
+/* 3) 실제 SVG/IMG에 100% 채우기 */
+.icon-star img,
+.icon-star svg,
+.icon-heart img,
+.icon-heart svg,
+.icon-user img,
+.icon-user svg,
+.icon-clock img,
+.icon-clock svg,
+.icon-gear img,
+.icon-gearsvg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* 비율 유지하며 꽉 채우기 */
+}
+
+.detail-info {
+  display: flex;
+  justify-content: space-between; /* 좌우로 최대 간격 배치 */
+  align-items: center; /* 세로 가운데 정렬 (선택) */
+}
+
+/* 숨김용 유틸리티 */
+.hidden {
+  display: none !important;
+}
+
+.mode.account-mode {
+  margin-top: 50px;
+  display: none;
+}
+.mode.account-mode:not(.hidden) {
+  display: block;
+}
+
+/* 뷰 모드 상세정보 컨테이너를 기준으로 절대 위치 사용 */
+.mode.view-mode .detail-info {
+  position: relative;
+}
+
+/* 뷰 모드 우측 화살표 버튼 스타일 */
+.mode.view-mode .right-btn {
+  position: absolute;
+  right: 16px; /* 컨테이너 우측 여백 유지 */
+  top: 50%; /* 세로 중앙 유지 */
+  transform: translateY(-50%);
+
+  background: none; /* 배경 없애기 */
+  border: none; /* 테두리 없애기 */
+  padding: 0; /* 패딩 없애기 */
+  width: auto; /* 버튼 크기 자동 */
+  height: auto;
+  cursor: pointer;
+}
+
+.mode.view-mode .right-btn > img {
+  display: block; /* 인라인 여백 제거 */
+  width: 70px; /* 이미지 고정 크기 (원본 비율 유지하려면 auto) */
+  height: 47px;
+}
+
+/* 화살표 아이콘 크기 조절 */
+.mode.view-mode .right-btn img {
+  width: 40px;
+  height: 40px;
+}
+
+.every-day-grass h1 {
+  font-size: 17px;
+}
+/* account-settings-form 안의 .detail-info/.detail-row 등은
+   edit-mode 스코프와 유사하게 스타일 잡아 주세요. */
+
+/* flex 정렬 등 똑같이 적용 가능 */
+/* 필요하다면 .edit-mode .detail-info 에 다른 레이아웃(CSS grid 등) 추가 */
+
+.my-btns {
+  display: flex;
+  flex-direction: column; /* 아래로 쌓으려면 column, 가로로는 row */
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* '편집' 버튼 스타일 */
+.my-btns .btn-edit2 {
+  width: 320px;
+  height: 44px;
+  border-radius: 12px;
+  background: #534f4c;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* '계정 삭제'는 빨간 텍스트 스타일 */
+.my-btns .delete-account {
+  background: none;
+  border: none;
+  color: #e64a19;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: center;
+  margin-left: 340px;
+  margin-top: 0;
+  padding: 0;
+}
+
+/* 1) 링크 자체에 상대위치 지정 */
+.sub-links {
+  margin-top: 45px;
+}
+
+.sub-links a {
+  position: relative;
+  padding-left: 1em; /* 점이 텍스트에 붙지 않도록 여백 확보 */
+
+  text-decoration: none; /* 필요에 따라 */
+  color: inherit; /* 필요에 따라 */
+}
+
+/* 2) 앞에 점 추가, 가로/세로 중앙 정렬 */
+.sub-links a::before {
+  content: ".";
+  position: absolute;
+  left: 0; /* .sub-links a의 왼쪽 시작점 */
+  top: 50%; /* 세로 방향으로 50% 지점 */
+  transform: translateY(-50%); /* 요소 높이의 절반만큼 위로 이동 */
+  font-size: 0.8em; /* 점 크기 조절 (선택) */
+  line-height: 1; /* 세로 정렬 보정 */
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 70px;
+}
+.popup {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.14);
+  padding: 38px 28px;
+  max-width: 670px;
+  width: 100%;
+  position: relative;
+}
+.popup-overlay.hidden {
+  display: none !important;
+}
