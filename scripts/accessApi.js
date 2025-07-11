@@ -20,7 +20,7 @@
    * @returns {Promise<object>} JSON 응답
    */
   async function apiFetch(path, options = {}) {
-    const baseUrl = "http://3.39.89.75:8080";
+    const baseUrl = "https://hyunseok.store/swagger-ui/index.html#/";
     const token = getToken();
     const headers = {
       "Content-Type": "application/json",
@@ -36,7 +36,7 @@
     // 401 Unauthorized 처리
     if (res.status === 401) {
       clearToken();
-      window.location.href = "index.html";
+      window.location.href = "../index.html";
       throw new Error("Unauthorized");
     }
 

@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const myPostsBtn = document.getElementById("my-posts");
   const myActivityBtn = document.querySelector(".my-activity");
   const commentsLink = document.getElementById("my-comments");
-
   function hideAll() {
     [profileMode, savedMode, likedMode, activityMode, commentsMode].forEach(
       (sec) => sec?.classList.add("hidden")
