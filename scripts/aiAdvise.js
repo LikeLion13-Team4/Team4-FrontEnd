@@ -6,11 +6,11 @@ document
 
     // 2) startDate = today - 6일
     const start = new Date(today);
-    start.setDate(start.getDate() - 6);
+    start.setDate(start.getDate() - 7);
 
     // 3) endDate = today + 1일
     const end = new Date(today);
-    end.setDate(end.getDate() + 1);
+    end.setDate(end.getDate());
 
     // 4) YYYY-MM-DD 형식으로 자르기
     const startDate = start.toISOString().slice(0, 10);
@@ -28,7 +28,7 @@ document
         return;
       }
 
-      document.getElementById("feedbackText").innerHTML = res.result;
+      document.getElementById("feedbackText").innerHTML = res.message;
     } catch (err) {
       console.error("AI 피드백 호출 중 오류:", err);
       alert("피드백 요청 중 오류가 발생했습니다.");

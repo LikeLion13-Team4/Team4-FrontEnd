@@ -85,3 +85,59 @@ function updateDonutGraph(carbs, protein, fat) {
   setLabelPosition(".label-protein", carbPercent, proteinPercent);
   setLabelPosition(".label-fat", carbPercent + proteinPercent, fatPercent);
 }
+
+// report_api_integration.js
+
+// 0) 회원 정보(닉네임) 불러와서 report-name 업데이트
+async function loadMember() {
+  try {
+    const res = await AccessAPI.apiFetch("/api/v1/members", { method: "GET" });
+    if (res.isSuccess && res.result) {
+      const { nickname } = res.result;
+      const el = document.getElementById("report-name");
+      if (el && nickname) {
+        el.textContent = nickname;
+      }
+    } else {
+      console.error(`멤버 조회 실패 (${res.code}): ${res.message}`);
+    }
+  } catch (err) {
+    console.error("멤버 조회 중 오류:", err);
+  }
+}
+
+// 1) 화면에 리포트 결과를 반영하는 공통 함수
+function renderReport(result) {
+  /* ... 기존 renderReport 그대로 ... */
+}
+
+// 2) 기존 리포트 불러오기 (GET)
+async function loadReport() {
+  /* ... 기존 loadReport 그대로 ... */
+}
+
+// 3) 새 리포트 생성 (POST)
+async function createReport() {
+  /* ... 기존 createReport 그대로 ... */
+}
+
+// 4) 도넛 그래프 그리는 함수
+function updateDonutGraph(carbs, protein, fat) {
+  /* ... 기존 updateDonutGraph 그대로 ... */
+}
+
+// 5) 초기 실행 및 버튼 바인딩
+window.addEventListener("DOMContentLoaded", () => {
+  // 5-1) 닉네임 먼저 가져와서 반영
+  loadMember();
+
+  // 5-2) 리포트 로드
+  loadReport();
+  updateMonthDisplay();
+
+  // 5-3) 리포트 만들기 버튼
+  const createBtn = document.querySelector(".generate-report");
+  if (createBtn) {
+    createBtn.addEventListener("click", createReport);
+  }
+});

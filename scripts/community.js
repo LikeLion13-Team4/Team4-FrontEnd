@@ -316,3 +316,31 @@ async function loadScrapPosts(page = 1) {
     alert("스크랩 게시글 불러오는 중 오류가 발생했습니다.");
   }
 }
+
+const writeBtn = document.querySelector(".write-btn");
+const popupOverlay = document.querySelector(".popup-overlay");
+const cancelBtn = document.querySelector(".cancel-btn");
+const submitBtn = document.querySelector(".submit-btn");
+
+// 팝업 열기
+writeBtn.addEventListener("click", () => {
+  popupOverlay.classList.remove("hidden");
+});
+
+// 팝업 닫기: 취소 버튼
+cancelBtn.addEventListener("click", () => {
+  popupOverlay.classList.add("hidden");
+});
+
+// 팝업 닫기: 올리기(제출) 버튼 클릭 후에도 닫을 경우
+submitBtn.addEventListener("click", () => {
+  // TODO: 실제 업로드 로직 처리 후
+  popupOverlay.classList.add("hidden");
+});
+
+// 팝업 바깥(오버레이) 클릭 시 닫기
+popupOverlay.addEventListener("click", (e) => {
+  if (e.target === popupOverlay) {
+    popupOverlay.classList.add("hidden");
+  }
+});
