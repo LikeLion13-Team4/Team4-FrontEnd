@@ -274,3 +274,17 @@ document.addEventListener("DOMContentLoaded", function () {
     accountMode.classList.remove("hidden");
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const editButton = document.getElementById("edit-scroll");
+  const viewMode = document.querySelector(".account-view");
+  const editMode = document.querySelector(".account-edit");
+
+  editButton.addEventListener("click", () => {
+    viewMode.classList.add("hidden"); // 조회 화면 숨기기
+    editMode.classList.remove("hidden"); // 편집 화면 보이기
+
+    // 편집 화면으로 스크롤 이동하고 싶다면 추가
+    editMode.scrollIntoView({ behavior: "smooth" });
+  });
+});
