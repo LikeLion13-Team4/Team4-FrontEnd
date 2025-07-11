@@ -31,6 +31,7 @@
 /* --- 식단 계획표(.meal-plan) --- */
 .meal-plan {
   background-color: #e0f1ea;
+  height: 900px;
   border-radius: 20px;
   padding: 24px;
   display: flex;

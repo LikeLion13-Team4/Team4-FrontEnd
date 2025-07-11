@@ -329,3 +329,10 @@
   animation: shimmer 1.4s infinite linear;
   border-radius: 20px;
 }
+
+/* 일주일 범위 하이라이트 */
+.day.in-week {
+  background-color: #5c5452; /* 어두운 배경 */
+  color: #fff; /* 글자 흰색 */
+  border-radius: 50%; /* 동그란 형태 */
+}

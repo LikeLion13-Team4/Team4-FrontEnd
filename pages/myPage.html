@@ -218,39 +218,35 @@
                             <div class="detail-row">
                                 <div class="first">이름</div>
                                 <div class="second">
-                                    <input id="porfile-name" type="text" name="userName" value="김00" />
+                                    <input id="porfile-name" type="text" name="userName" />
                                 </div>
                             </div>
                             <!-- Email은 변경 가능 -->
                             <div class="detail-row">
                                 <div class="first">Email</div>
                                 <div class="second">
-                                    <input id="profile-email" type="email" name="email"
-                                        value="likelion13th_team4@gmail.com" />
+                                    <input id="profile-email" type="email" name="email" />
                                 </div>
                             </div>
                             <!-- 기존 비밀번호 입력 -->
                             <div class="detail-row">
                                 <div class="first">기존 비밀번호</div>
                                 <div class="second">
-                                    <input id="profile-past-pw" type="password" name="currentPassword"
-                                        placeholder="현재 비밀번호 입력" />
+                                    <input id="profile-past-pw" type="password" name="currentPassword" />
                                 </div>
                             </div>
                             <!-- 새 비밀번호 입력 -->
                             <div class="detail-row">
                                 <div class="first">새 비밀번호</div>
                                 <div class="second">
-                                    <input id="prfile-new-pw" type="password" name="newPassword"
-                                        placeholder="새 비밀번호 입력" />
+                                    <input id="prfile-new-pw" type="password" name="newPassword" />
                                 </div>
                             </div>
                             <!-- 이메일 6자리 인증코드 -->
                             <div class="detail-row">
                                 <div class="first">이메일 인증코드</div>
                                 <div class="second code-group">
-                                    <input id="profile-email-code" type="text" name="emailCode" placeholder="6자리 코드"
-                                        maxlength="6" />
+                                    <input id="profile-email-code" type="text" name="emailCode" maxlength="6" />
                                     <button id="profile-email-certify-btn" type="button" class="btn-code">
                                         인증코드 받기
                                     </button>
@@ -333,7 +329,9 @@
             <button class="page-prev-comments" style="display: none">
                 &#60;
             </button>
-            <div class="my-comments-content"></div>
+            <div class="my-comments-content">
+
+            </div>
             <button class="page-next-comments" style="display: none">
                 &#62;
             </button>
@@ -401,28 +399,8 @@
     </div>
 
     <!-- 게시글 상세 페이지 -->
-    <div id="post-detail-modal" class="post-detail-modal hidden">
-        <div class="post-detail-bg"></div>
-        <div class="post-detail-content">
-            <button class="close-detail-btn">&larr; 게시글 목록</button>
-            <div class="post-detail-main">
-                <div class="post-detail-header">
-                    <span class="post-detail-user">유저A</span>
-                    <span class="post-detail-tags"></span>
-                </div>
-                <h2 class="post-detail-title"></h2>
-                <div class="post-detail-body"></div>
-                <div class="post-detail-images"></div>
-                <div class="post-detail-footer">
-                    <span>좋아요 <span class="post-detail-likes">0</span></span>
-                    <span>댓글 <span class="post-detail-comments">0</span></span>
-                </div>
-                <div class="post-detail-comments-wrap">
-                    <!-- 댓글들 추가 영역 -->
-                </div>
-            </div>
-        </div>
-    </div>
+
+
 
     <!-- 편집 팝업창  -->
     <div id="modal-overlay" class="hidden"></div>
@@ -492,6 +470,7 @@
     <script src="../scripts/logout.js" defer></script>
     <script src="../scripts/pwChange.js" defer></script>
     <script src="../scripts/aiAdvise.js" defer></script>
+    <script src="../scripts/detailcontent.js" defer></script>
 
 
     <!-- 저장/좋아요/내 게시글(공통 카드) -->
@@ -553,34 +532,46 @@
     </template>
 
     <!-- 내 게시글 상세 팝업 (바디 맨 아래에 추가) -->
+    <!-- 내 게시글 상세 팝업 (바디 맨 아래에 추가) -->
     <div id="post-detail-popup-overlay" class="popup-overlay hidden">
         <div class="popup" id="post-detail-popup">
-            <button class="popup-close-btn" style="
-            position: absolute;
-            right: 18px;
-            top: 14px;
-            font-size: 2rem;
-            background: none;
-            border: none;
-          ">
-                &times;
-            </button>
+            <button class="popup-close-btn">×</button>
             <div class="popup-tags" id="detail-tags"></div>
             <h2 id="detail-title"></h2>
             <div id="detail-body"></div>
-            <div id="detail-images" style="display: flex; gap: 10px; margin-bottom: 18px"></div>
-            <div style="display: flex; gap: 14px; margin-bottom: 10px">
+            <div id="detail-images"></div>
+            <div id="detail-stats">
                 <span id="detail-like"></span>
                 <span id="detail-comment"></span>
                 <span id="detail-save"></span>
             </div>
-            <!-- 댓글 목록을 위한 영역 추가! -->
+
+            <!-- 댓글 목록을 위한 영역 -->
             <div id="detail-comments" style="margin-top: 30px">
-                <h3 style="margin-bottom: 10px">댓글</h3>
-                <div id="detail-comments-list"></div>
+                <h3>댓글</h3>
+                <div id="detail-comments-list">
+                    <!-- 기존 댓글 아이템들... -->
+                </div>
+
+                <!-- ★ 여기에 입력 섹션 추가 -->
+                <div class="detail-comment-input" style="margin-top: 16px; display: flex; gap: 8px;">
+                    <textarea id="new-comment" class="comment-input" placeholder="댓글을 입력하세요..."
+                        style="flex: 1; resize: vertical; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    <button id="submit-comment" class="submit-comment-btn"
+                        style="padding: 8px 12px; border: none; background-color: #007bff; color: white; border-radius: 4px;">
+                        등록
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
 </body>
 
 </html>
