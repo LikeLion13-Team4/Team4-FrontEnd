@@ -18,12 +18,8 @@
         <!-- 사이드바 -->
         <aside class="sidebar">
             <div class="logo-wrapper">
-          <img
-            src="../images/리프리 사이드바.png"
-            alt="로고"
-            class="logo-image"
-          />
-        </div>
+                <img src="../images/리프리 사이드바.png" alt="로고" class="logo-image" />
+            </div>
             <nav>
                 <ul>
                     <li>
@@ -108,11 +104,16 @@
 
                 <!--이건 편집버튼 누르면 보이는 화면 -->
 
+
+
                 <form class="mode edit-mode hidden">
                     <div class="profile-pic-edit">
-                        <img src="../images/capybara.png" alt="프로필 사진" />
+                        <!-- JS가 이곳에 <img>를 추가합니다 -->
                         <button type="button" class="pic-edit-btn">편집</button>
                     </div>
+
+
+
 
                     <div class="detail-info">
                         <!-- 성별 -->
@@ -251,7 +252,7 @@
                             </div>
                             <!-- 이메일 6자리 인증코드 -->
                             <div class="detail-row">
-                                <div class="first">이메일 인증코드</div>
+                                <div class="first" id="email-certify-code">이메일 인증코드</div>
                                 <div class="second code-group">
                                     <input id="profile-email-code" type="text" name="emailCode" maxlength="6" />
                                     <button id="profile-email-certify-btn" type="button" class="btn-code">

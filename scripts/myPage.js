@@ -181,16 +181,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       const { nickname, email, gender, birthday, height, weight, imageUrl } =
         data.result;
 
-      console.log("nickname 확인:", nickname); // ✅ 이제 올바른 위치
-
-      // 🔹 프로필 카드 영역 채우기
+      // 프로필 카드 영역 채우기
       document.getElementById("nick-name").textContent = nickname;
       document.getElementById("gender").textContent =
         gender === "MALE" ? "남" : "여";
       document.getElementById("height").textContent = `${height} cm`;
       document.getElementById("weight").textContent = `${weight} kg`;
 
-      // 🔹 나이 계산
+      // 나이 계산
       const birthDate = new Date(birthday);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
@@ -198,7 +196,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
       document.getElementById("age").textContent = `만 ${age}세`;
 
-      // 🔹 프로필 이미지 설정
+      // 프로필 배경 이미지 (div) 설정
       const profilePic = document.querySelector(".profile-pic");
       if (imageUrl && profilePic) {
         profilePic.style.backgroundImage = `url(${imageUrl})`;
@@ -206,7 +204,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         profilePic.style.backgroundPosition = "center";
       }
 
-      // ✅ account-view 영역 채우기
+      const profilePic2 = document.querySelector(".profile-pic2");
+      if (imageUrl && profilePic2) {
+        profilePic2.style.backgroundImage = profilePic.style.backgroundImage;
+        profilePic2.style.backgroundSize = profilePic.style.backgroundSize;
+        profilePic2.style.backgroundPosition =
+          profilePic.style.backgroundPosition;
+      }
+
+      // account-view 폼 초기값
       document.getElementById("account-nickname").value = nickname;
       document.getElementById("account-email").value = email;
       document.getElementById("account-password").value = "************";
@@ -275,16 +281,155 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // AccessAPI.apiFetch 사용
+    const json = await AccessAPI.apiFetch("/api/v1/members");
+    const imageUrl = json.result.imageUrl;
+    if (imageUrl) {
+      const picDiv = document.querySelector(".profile-pic-edit");
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = "프로필 사진";
+      img.classList.add("profile-pic");
+      // 크기나 스타일은 CSS 클래스(.profile-pic)에서 정의
+      picDiv.insertBefore(img, picDiv.querySelector(".pic-edit-btn"));
+    }
+  } catch (err) {
+    console.error("회원 정보 로드 실패:", err);
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
-  const editButton = document.getElementById("edit-scroll");
-  const viewMode = document.querySelector(".account-view");
-  const editMode = document.querySelector(".account-edit");
+  const yearSelect = document.getElementById("birth-year");
+  const monthSelect = document.getElementById("birth-month");
+  const daySelect = document.getElementById("birth-day");
 
-  editButton.addEventListener("click", () => {
-    viewMode.classList.add("hidden"); // 조회 화면 숨기기
-    editMode.classList.remove("hidden"); // 편집 화면 보이기
+  // 1) 연도 옵션 채우기 (예: 1900년 ~ 올해)
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 1900; y--) {
+    const opt = document.createElement("option");
+    opt.value = y;
+    opt.textContent = `${y}년`;
+    yearSelect.appendChild(opt);
+  }
 
-    // 편집 화면으로 스크롤 이동하고 싶다면 추가
-    editMode.scrollIntoView({ behavior: "smooth" });
+  // 2) 월 옵션 채우기 (1월 ~ 12월)
+  for (let m = 1; m <= 12; m++) {
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = `${m}월`;
+    monthSelect.appendChild(opt);
+  }
+
+  // 3) 일(day) 옵션 채우기 위한 함수
+  function updateDays() {
+    const year = parseInt(yearSelect.value, 10);
+    const month = parseInt(monthSelect.value, 10);
+    if (!year || !month) return;
+
+    // 해당 월의 마지막 일 계산
+    const lastDay = new Date(year, month, 0).getDate();
+
+    // 기존 day 옵션 제거
+    daySelect.innerHTML = "";
+
+    // 1일 ~ lastDay일 옵션 추가
+    for (let d = 1; d <= lastDay; d++) {
+      const opt = document.createElement("option");
+      opt.value = d;
+      opt.textContent = `${d}일`;
+      daySelect.appendChild(opt);
+    }
+  }
+
+  // 4) 초기 day 채우기 (현재 연·월 선택값이 없으므로 기본값 세팅 후 호출)
+  //    기본 선택: 올해, 1월
+  yearSelect.value = currentYear;
+  monthSelect.value = 1;
+  updateDays();
+
+  // 5) 연도·월 변경 시 day 재생성
+  yearSelect.addEventListener("change", updateDays);
+  monthSelect.addEventListener("change", updateDays);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const editForm = document.querySelector("form.mode.edit-mode");
+  const viewMode = document.querySelector(".mode.view-mode");
+  const editMode = editForm;
+  const btnEdit = document.querySelector(".btn-edit");
+  const btnSave = editForm.querySelector("#profile-edit-btn");
+  const btnCancel = editForm.querySelector(".btn-cancel"); // 편집 취소 버튼이 있다면
+
+  // 1) 편집 버튼 클릭하면 edit-mode 보이기
+  btnEdit.addEventListener("click", () => {
+    viewMode.classList.add("hidden");
+    editMode.classList.remove("hidden");
   });
+
+  // 2) 편집 폼 submit 핸들러
+  editForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // (1) 폼 값 수집
+    const birthday = [
+      editForm.birthYear.value,
+      editForm.birthMonth.value.padStart(2, "0"),
+      editForm.birthDay.value.padStart(2, "0"),
+    ].join("-");
+
+    const gender = editForm.gender.value === "M" ? "MALE" : "FEMALE";
+    const height = parseFloat(editForm.height.value) || 0;
+    const weight = parseFloat(editForm.weight.value) || 0;
+
+    try {
+      // (2) PATCH 요청
+      const res = await AccessAPI.apiFetch("/api/v1/members/account", {
+        method: "PATCH",
+        body: JSON.stringify({ birthday, gender, height, weight }),
+      });
+
+      if (!res.isSuccess) {
+        throw new Error(res.message || "업데이트 실패");
+      }
+
+      // (3) 뷰 모드의 텍스트 갱신
+      // gender
+      const genderText = gender === "MALE" ? "남" : "여";
+      document.getElementById("gender").textContent = genderText;
+      // age 계산 예시 (생일로부터 만 나이 계산)
+      const [y, m, d] = birthday.split("-");
+      const birthDate = new Date(+y, +m - 1, +d);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      if (
+        today.getMonth() < birthDate.getMonth() ||
+        (today.getMonth() === birthDate.getMonth() &&
+          today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+      document.getElementById("age").textContent = age;
+      // height, weight
+      document.getElementById("height").textContent = `${height}cm`;
+      document.getElementById("weight").textContent = `${weight}kg`;
+
+      // (4) 모드 전환
+      editMode.classList.add("hidden");
+      viewMode.classList.remove("hidden");
+      alert("신체 정보가 업데이트되었습니다.");
+    } catch (err) {
+      console.error("신체 정보 수정 에러:", err);
+      alert("정보 수정에 실패했습니다. 다시 시도해 주세요.");
+    }
+  });
+
+  // 3) 취소 버튼(있다면) 핸들러: 편집 모드 닫기
+  if (btnCancel) {
+    btnCancel.addEventListener("click", () => {
+      editMode.classList.add("hidden");
+      viewMode.classList.remove("hidden");
+    });
+  }
 });

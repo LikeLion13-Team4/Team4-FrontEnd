@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>나의 식단</title>
@@ -14,97 +15,121 @@
     <script src="../scripts/calendar.js" defer></script>
     <script src="../scripts/mealAdd.js" defer></script>
     <script src="../scripts/logout.js" defer></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <div class="container">
-      <!-- 사이드바 -->
-      <!-- 사이드바 -->
-      <aside class="sidebar">
-        <nav>
-          <ul>
-            <li>
-              <a href="../pages/myMealPage.html" class="active">
-                <img class="side-icon" src="/images/myMeal.svg" />나의 식단</a
-              >
-            </li>
-            <li>
-              <a href="../pages/report.html">
-                <img src="/images/report.svg" class="side-icon" /> 리포트
-              </a>
-            </li>
-            <li>
-              <a href="../pages/community.html">
-                <img src="/images/community.svg" class="side-icon" /> 커뮤니티
-              </a>
-            </li>
-            <li>
-              <a href="../pages/myPage.html"
-                ><img class="side-icon" src="/images/myPage.svg" />마이페이지</a
-              >
-            </li>
-          </ul>
-        </nav>
-        <a href="#" class="logout-link"
-          ><img class="side-icon" src="/images/exit.svg" />로그아웃</a
-        >
-      </aside>
-
-      <!-- 메인 콘텐츠 -->
-      <main class="main-content">
-        <!-- 왼쪽 칼럼 -->
-        <div class="left-column">
-          <div class="grass-calendar" id="attendance-calendar"></div>
-          <div class="every-day-grass">
-            <h1>매일 잔디 심기!</h1>
-            <p>
-              "하루 한 번 식단만 기록하면,<br />출석 잔디에 푸릇한 잔디가
-              생겨요."
-            </p>
-          </div>
-        </div>
-
+        <!-- 사이드바 -->
+        <!-- 사이드바 -->
+        <aside class="sidebar">
+            <div class="logo-wrapper">
+                <img src="../images/리프리 사이드바.png" alt="로고" class="logo-image" />
             </div>
-          </div>
-        </div>
-      </main>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="../pages/myMealPage.html" class="active">
+                            <img class="side-icon" src="/images/myMeal.svg" />나의 식단</a>
+                    </li>
+                    <li>
+                        <a href="../pages/report.html">
+                            <img src="/images/report.svg" class="side-icon" /> 리포트
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pages/community.html">
+                            <img src="/images/community.svg" class="side-icon" /> 커뮤니티
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../pages/myPage.html"><img class="side-icon" src="/images/myPage.svg" />마이페이지</a>
+                    </li>
+                </ul>
+            </nav>
+            <a href="#" class="logout-link"><img class="side-icon" src="/images/exit.svg" />로그아웃</a>
+        </aside>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main-content">
+            <!-- 왼쪽 칼럼 -->
+            <div class="left-column">
+                <div class="grass-calendar" id="attendance-calendar"></div>
+                <div class="every-day-grass">
+                    <h1>매일 잔디 심기!</h1>
+                    <p>
+                        "하루 한 번 식단만 기록하면,<br />출석 잔디에 푸릇한 잔디가
+                        생겨요."
+                    </p>
+                </div>
+            </div>
+
+            <!-- 식단 계획표 -->
+            <div class="meal-plan">
+                <!-- 1) 헤더 -->
+                <h1><span>김멋사</span>님의 식단 계획표</h1>
+                <div class="mp-header">
+                    <button class="mp-nav mp-prev">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <span class="mp-month">June 2025</span>
+                    <button class="mp-nav mp-next">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- 2) 요일 네비게이션 -->
+                <div class="calendar-body">
+                    <div class="calendar-grid">
+                        <!-- Row 1: 날짜 레이블 (6개) 앞뒤로 빈 칸 2개 -->
+                        <div class="filler-cell"></div>
+                        <div class="mp-weekdays"></div>
+                        <div class="filler-cell"></div>
+
+                        <!-- Row 2: 슬롯 6개 앞뒤로 내비 버튼 -->
+                        <button class="calendar-side-nav nav-prev">&lt;</button>
+
+                        <div class="items-container">
+                            <div class="mp-col" data-index="0"></div>
+                            <div class="mp-col" data-index="1"></div>
+                            <div class="mp-col" data-index="2"></div>
+                            <div class="mp-col" data-index="3"></div>
+                            <div class="mp-col" data-index="4"></div>
+                            <div class="mp-col" data-index="5"></div>
+                        </div>
+
+                        <button class="calendar-side-nav nav-next">&gt;</button>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <!-- 4) 모달 팝업 -->
     <div id="modal">
-      <div class="modal-content">
-        <div class="form-left">
-          <label
-            >무엇을 먹었나요?
-            <input
-              type="text"
-              id="foodInput"
-              placeholder="예) 양념 치킨 2마리"
-            />
-          </label>
-          <label
-            >특이 사항이 있다면?
-            <input
-              type="text"
-              id="noteInput"
-              placeholder="예) 닭가슴살만 먹음!"
-            />
-          </label>
+        <div class="modal-content">
+            <div class="form-left">
+                <label>무엇을 먹었나요?
+                    <input type="text" id="foodInput" placeholder="예) 양념 치킨 2마리" />
+                </label>
+                <label>특이 사항이 있다면?
+                    <input type="text" id="noteInput" placeholder="예) 닭가슴살만 먹음!" />
+                </label>
+            </div>
+            <div class="form-divider"></div>
+            <div class="form-right">
+                <label>칼로리 (kcal)<input type="number" id="calorieInput" /></label>
+                <label>탄수화물 (g)<input type="number" id="carbInput" /></label>
+                <label>단백질 (g)<input type="number" id="proteinInput" /></label>
+                <label>지방 (g)<input type="number" id="fatInput" /></label>
+            </div>
+            <div class="actions">
+                <button class="cancel">취소</button>
+                <button class="add" class="add">추가</button>
+            </div>
         </div>
-        <div class="form-divider"></div>
-        <div class="form-right">
-          <label>칼로리 (kcal)<input type="number" id="calorieInput" /></label>
-          <label>탄수화물 (g)<input type="number" id="carbInput" /></label>
-          <label>단백질 (g)<input type="number" id="proteinInput" /></label>
-          <label>지방 (g)<input type="number" id="fatInput" /></label>
-        </div>
-        <div class="actions">
-          <button class="cancel">취소</button>
-          <button class="add" class="add">추가</button>
-        </div>
-      </div>
     </div>
 
     <!-- 스크립트 -->
-  </body>
+</body>
+
 </html>
