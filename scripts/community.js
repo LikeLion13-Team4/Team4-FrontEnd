@@ -261,7 +261,7 @@ function renderComments(comments, container, depth = 0) {
             </div>
           </div>
           <div class="comment-actions">
-            <button class="like-btn">공감 (0)</button>
+            <button class="like-btn">공감 CS</button>
           </div>
         </div>
         <div class="comment-content">${text}</div>
@@ -487,6 +487,12 @@ document.addEventListener("DOMContentLoaded", () => {
     tagEl.addEventListener("click", () => {
       const tagValue = tagEl.getAttribute("data-tag");
       loadPostsByTag(tagValue, 1);
+    });
+
+    document.body.addEventListener("click", (e) => {
+      if (e.target.classList.contains("like-btn")) {
+        e.target.classList.toggle("liked");
+      }
     });
   });
   // ✅ 팝업 열기

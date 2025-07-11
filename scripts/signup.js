@@ -170,3 +170,8 @@ window.addEventListener("DOMContentLoaded", () => {
   // 회원가입 버튼
   document.querySelector(".login-button").addEventListener("click", signUp);
 });
+document.getElementById("create-account-btn").addEventListener("click", () => {
+  // 회원가입 처리 로직이 여기에 있으면 그것 먼저 실행한 후에,
+  // 성공 시 login.html로 이동
+  window.location.href = "../pages/login.html";
+});

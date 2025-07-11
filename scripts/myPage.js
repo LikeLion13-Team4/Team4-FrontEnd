@@ -434,17 +434,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  const passwordLabel = document.getElementById("edit-scroll");
-  const accountView = document.querySelector(".account-view");
-  const accountEdit = document.querySelector(".account-edit");
-
-  passwordLabel.style.cursor = "pointer"; // 마우스 포인터 변경 (선택 사항)
-
-  passwordLabel.addEventListener("click", () => {
-    // ① 뷰 모드 숨기기
-    if (accountView) accountView.classList.add("hidden");
-    // ② 수정 폼 보여주기
-    if (accountEdit) accountEdit.classList.remove("hidden");
   });
 });
