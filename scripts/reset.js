@@ -70,7 +70,7 @@ window.addEventListener("DOMContentLoaded", () => {
         alert(
           "임시 비밀번호가 이메일로 전송되었습니다. 로그인 후 꼭 변경해주세요."
         );
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
       } else {
         alert("임시 비밀번호 발급 실패: " + data.message);
       }
