@@ -38,6 +38,18 @@ a {
   display: flex;
   flex-direction: column;
 }
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px;
+}
+
+/* 실제 로고 이미지 */
+.logo-image {
+  width: 100px; /* 적절히 조정 가능 */
+  height: auto;
+}
 .sidebar nav {
   flex-grow: 1;
 }

@@ -138,45 +138,6 @@ body {
 }
 
 /* 소셜 로그인 버튼 */
-.social-login {
-  display: flex;
-  gap: 14px;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.google-btn,
-.kakao-btn {
-  flex: 1;
-  height: 64px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  border: none;
-}
-
-.google-btn {
-  background-color: #ffffff;
-  color: #000;
-}
-
-.kakao-btn {
-  background-color: #fee500;
-  color: #000;
-}
-
-.google-btn img,
-.kakao-btn img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
 
 /* 회원가입 링크 */
 .signup-link {
