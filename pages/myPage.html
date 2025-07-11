@@ -165,7 +165,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-save">저장</button>
+                    <button type="submit" class="btn-save" id="profile-edit-btn">저장</button>
                 </form>
 
                 <!--이건 편집버튼 누르면 보이는 화면 여기까지 -->
@@ -317,9 +317,9 @@
         </button>
         <!-- ▼ 페이지네이션 컨테이너 추가! ▼ -->
         <div class="card-pagination">
-            <button class="page-prev-my" style="display: none">&#60;</button>
+            <button id="page-prev-my" class="page-prev-my" style="display: none">&#60;</button>
             <div class="my-posts-content"></div>
-            <button class="page-next-my" style="display: none">&#62;</button>
+            <button id="page-next-my" class="page-next-my" style="display: none">&#62;</button>
         </div>
     </section>
 
@@ -416,11 +416,11 @@
         <h3>사진 편집</h3>
         <button type="button" class="modal-close">&times;</button>
 
-        <button type="button" class="file-upload-btn">
-            <img src="../images/upload-icon.svg" alt="" />
+        <label for="profile-file-input" class="file-upload-btn">
+            <img src="upload-icon.svg" />
             파일 업로드
-            <input type="file" id="profile-file-input" accept="image/*" hidden />
-        </button>
+        </label>
+        <input type="file" id="profile-file-input" accept="image/*" hidden />
 
         <div class="preview-box">
             <img id="preview-image" src="" alt="미리보기" />
@@ -468,7 +468,7 @@
         <h3>계정이 삭제되었습니다.</h3>
         <p class="modal-subtitle">이 작업은 되돌릴 수 없습니다.</p>
     </div>
-    <script src="../scripts/accessapi.js"></script>
+    <script src="../scripts/accessapi.js" defer></script>
     <script src="../scripts/myPage.js" defer></script>
     <script src="../scripts/posts.js" defer></script>
     <script src="../scripts/items.js" defer></script>
@@ -478,6 +478,8 @@
     <script src="../scripts/pwChange.js" defer></script>
     <script src="../scripts/aiAdvise.js" defer></script>
     <script src="../scripts/detailcontent.js" defer></script>
+    <script src="../scripts/photo.js" defer></script>
+
 
 
     <!-- 저장/좋아요/내 게시글(공통 카드) -->
