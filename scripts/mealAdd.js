@@ -1,39 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // — 더미 GET 데이터 (나중에 fetch로 교체) —
-  const savedItems = [
-    {
-      mealId: 1,
-      date: "2025-07-08",
-      menu: "양념 치킨 2마리",
-      description: "치킨만 먹음",
-      calories: 1200,
-      carbs: 30,
-      protein: 80,
-      fat: 70,
-    },
-    {
-      mealId: 2,
-      date: "2025-07-09",
-      menu: "샐러드",
-      description: "",
-      calories: 350,
-      carbs: 20,
-      protein: 15,
-      fat: 10,
-    },
-    {
-      mealId: 3,
-      date: "2025-07-05",
-      menu: "샐러드",
-      description: "",
-      calories: 350,
-      carbs: 20,
-      protein: 15,
-      fat: 10,
-    },
-    // …추가 더미 데이터…
-  ];
-
   // 1) AttendanceCalendar 초기화
   new AttendanceCalendar("attendance-calendar", [
     "2025-06-01",
@@ -50,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const weekdays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   let weekOffset = 0; // today 기준 이동일수
 
-  function renderWeek() {
+  // 주 단위 렌더링 함수
+  async function renderWeek() {
     header.innerHTML = "";
     const today = new Date();
     const startDate = new Date(today);
@@ -69,31 +35,41 @@ document.addEventListener("DOMContentLoaded", () => {
       header.appendChild(div);
     }
 
-    // B) 각 컬럼에 날짜, 저장된 식단, + 버튼 렌더
-    cols.forEach((col, idx) => {
-      // (1) 날짜 계산 & dataset 설정
+    // B) 각 컬럼에 날짜, API 데이터, + 버튼 렌더
+    cols.forEach(async (col, idx) => {
+      // (1) 날짜 계산 & 데이터셋 설정
       const d = new Date(startDate);
       d.setDate(startDate.getDate() + idx);
       const iso = d.toISOString().slice(0, 10);
       col.dataset.date = iso;
       col.innerHTML = "";
 
-      // (2) savedItems 렌더
-      savedItems
-        .filter((item) => item.date === iso)
-        .forEach((item) => {
-          const slot = document.createElement("div");
-          slot.className = "slot item";
-          slot.innerHTML = `
-            <div class="food">${item.menu}</div>
-            ${
-              item.description
-                ? `<div class="note">${item.description}</div>`
-                : ""
-            }
-          `;
-          col.appendChild(slot);
+      // (2) /api/v1/meals?date= 호출
+      try {
+        const res = await AccessAPI.apiFetch(`/api/v1/meals?date=${iso}`, {
+          method: "GET",
         });
+        if (res.isSuccess && Array.isArray(res.result)) {
+          res.result.forEach((item) => {
+            const slot = document.createElement("div");
+            slot.className = "slot item";
+            slot.innerHTML = `
+              <div class="food">${item.menu}</div>
+              ${
+                item.description
+                  ? `<div class="note">${item.description}</div>`
+                  : ""
+              }
+            `;
+            col.appendChild(slot);
+          });
+        } else {
+          // 식단이 없는 날은 그냥 넘어감
+          console.info(`식단 데이터 없음: ${iso}`);
+        }
+      } catch (err) {
+        console.error(`식단 불러오기 실패 (${iso}):`, err);
+      }
 
       // (3) + 버튼 추가
       const plus = document.createElement("div");
@@ -103,18 +79,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // — nav 버튼: “한 윈도우(컬럼 개수)씩” 이동하도록 변경 —
+  // nav 버튼: 6일씩 이동
   prevBtn.addEventListener("click", () => {
-    weekOffset -= cols.length; // cols.length === 6 이므로, 6일씩 뒤로
+    weekOffset -= cols.length;
     renderWeek();
   });
   nextBtn.addEventListener("click", () => {
     weekOffset += cols.length;
     renderWeek();
   });
+
+  // 최초 렌더
   renderWeek();
 
-  // 3) 모달 열기/닫기 & POST 로직
+  // 3) 모달 열기/닫기 & POST 로직 (기존 그대로)
   const modal = document.getElementById("modal");
   const foodInput = document.getElementById("foodInput");
   const noteInput = document.getElementById("noteInput");
@@ -126,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const addBtn = modal.querySelector(".add");
   let activeCol = null;
 
-  // + 버튼 클릭 → 모달 열기
   document.body.addEventListener("click", (e) => {
     const slot = e.target.closest(".slot.empty");
     if (!slot) return;
@@ -134,13 +111,11 @@ document.addEventListener("DOMContentLoaded", () => {
     openModal();
   });
 
-  // 모달 닫기
   cancelBtn.onclick = closeModal;
   modal.onclick = (e) => {
     if (e.target === modal) closeModal();
   };
 
-  // 추가 버튼 클릭 → 화면 삽입 + POST
   addBtn.onclick = async () => {
     const food = foodInput.value.trim();
     if (!food) {
@@ -154,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const fat = parseInt(fatInput.value) || 0;
     const date = activeCol.dataset.date;
 
-    // 화면에 슬롯 추가
+    // 화면 삽입
     const slotDiv = document.createElement("div");
     slotDiv.className = "slot item";
     slotDiv.innerHTML = `
@@ -164,27 +139,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const plus = activeCol.querySelector(".slot.empty");
     activeCol.insertBefore(slotDiv, plus);
 
-    // POST 요청
+    // 저장 API 호출
     try {
-      const payload = {
+      await AccessAPI.apiFetch(`/api/v1/meals`, {
+        method: "POST",
+        body: JSON.stringify({
+          date,
+          menu: food,
+          description: note,
+          calories,
+          carbs,
+          protein,
+          fat,
+        }),
+      });
+      console.log("식단 저장 성공:", {
         date,
-        menu: food,
-        description: note,
+        food,
+        note,
         calories,
         carbs,
         protein,
         fat,
-      };
-      const res = await fetch("https://localhost8080.com/api/v1/meals", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error(await res.text());
-      console.log("식단 저장 성공:", payload);
     } catch (err) {
       console.error("식단 저장 실패:", err);
-      // TODO: 사용자에게 오류 UI 표시
+      // TODO: 오류 UI 표시
     }
 
     closeModal();
@@ -206,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "none";
   }
 
-  // 4) FullCalendar 초기화 (기존 그대로)
+  // 4) FullCalendar 초기화 (변경 없음)
   const el = document.getElementById("attendance-calendar");
   const calendar = new FullCalendar.Calendar(el, {
     plugins: [FullCalendar.DayGridPlugin],
