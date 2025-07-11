@@ -173,5 +173,5 @@ window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("create-account-btn").addEventListener("click", () => {
   // 회원가입 처리 로직이 여기에 있으면 그것 먼저 실행한 후에,
   // 성공 시 login.html로 이동
-  window.location.href = "../pages/login.html";
+  window.location.href = "../pages/index.html";
 });
