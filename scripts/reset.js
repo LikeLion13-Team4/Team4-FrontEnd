@@ -1,20 +1,14 @@
+// scripts/reset.js
 window.addEventListener("DOMContentLoaded", () => {
   const emailInput = document.getElementById("email");
   const codeInput = document.getElementById("temp-password");
   const sendCodeBtn = document.querySelector(".full-button");
   const getTempPwBtn = document.querySelector(".login-button");
 
-  // ✅ 1. 인증코드 이메일 전송
+  // ✅ 1. 인증코드 이메일 전송 (토큰 없이)
   sendCodeBtn.addEventListener("click", async () => {
     const email = emailInput.value.trim();
-
     if (!email) return alert("이메일을 입력해주세요.");
-
-    const ACCESS_TOKEN = localStorage.getItem("accessToken");
-    if (!ACCESS_TOKEN) {
-      alert("로그인이 필요합니다. 토큰이 없습니다.");
-      return;
-    }
 
     try {
       const res = await fetch(
@@ -24,7 +18,6 @@ window.addEventListener("DOMContentLoaded", () => {
           headers: {
             "Content-Type": "application/json",
             Accept: "*/*",
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
           body: JSON.stringify({
             email,
@@ -45,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ✅ 2. 인증 코드로 임시 비밀번호 요청
+  // ✅ 2. 인증 코드로 임시 비밀번호 요청 (AccessAPI 사용)
   getTempPwBtn.addEventListener("click", async (e) => {
     e.preventDefault();
 
@@ -56,12 +49,6 @@ window.addEventListener("DOMContentLoaded", () => {
       return alert("이메일과 인증 코드를 모두 입력해주세요.");
     }
 
-    const ACCESS_TOKEN = localStorage.getItem("accessToken");
-    if (!ACCESS_TOKEN) {
-      alert("로그인이 필요합니다. 토큰이 없습니다.");
-      return;
-    }
-
     try {
       const res = await fetch(
         "http://3.39.89.75:8080/api/v1/auths/reset-temp-password",
@@ -70,7 +57,6 @@ window.addEventListener("DOMContentLoaded", () => {
           headers: {
             "Content-Type": "application/json",
             Accept: "*/*",
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
           body: JSON.stringify({
             email,
@@ -82,7 +68,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
       if (data.isSuccess) {
         alert(
-          "임시 비밀번호가 이메일로 전송되었습니다. 로그인 후 반드시 비밀번호를 변경해주세요."
+          "임시 비밀번호가 이메일로 전송되었습니다. 로그인 후 꼭 변경해주세요."
         );
         window.location.href = "login.html";
       } else {
