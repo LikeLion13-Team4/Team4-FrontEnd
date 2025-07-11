@@ -567,10 +567,10 @@
   height: 100%;
   backdrop-filter: blur(8px);
   background-color: rgba(0, 0, 0, 0.4);
-  display: none; /* 기본 숨김 */
+  display: none;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1001;
 }
 
 /* 팝업 컨테이너 */
@@ -709,4 +709,8 @@
 .popup .popup-buttons .cancel-btn {
   background-color: #ddd;
   color: #333;
+}
+.popup-tags .tag.selected {
+  border: 2px solid #5c5452;
+  background-color: #e0dcd9;
 }

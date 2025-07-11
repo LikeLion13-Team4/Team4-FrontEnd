@@ -1,12 +1,9 @@
-// community.js
-
-// 전역 변수
 const postsPerPage = 10;
 let currentPage = 1;
 let totalPages = 1;
 let currentPost = null;
 
-// 1) 게시글 목록 불러오기 (page, size)
+// ✅ 게시글 목록 불러오기
 async function loadPosts(page = 1) {
   try {
     const data = await AccessAPI.apiFetch(
@@ -16,20 +13,56 @@ async function loadPosts(page = 1) {
       return alert("게시글 조회 실패: " + data.message);
     }
 
-    // 응답 구조 분해
     const { posts: postList, currentPage: cp, totalPages: tp } = data.result;
     currentPage = cp;
     totalPages = tp;
 
     renderPosts(postList);
     renderPagination();
+    document.getElementById("tag-title").textContent = "전체";
   } catch (err) {
     console.error("게시글 로드 중 오류:", err);
     alert("서버 오류로 게시글을 불러올 수 없습니다.");
   }
 }
 
-// 2) 게시글 렌더링
+// ✅ 태그별 게시글 조회
+async function loadPostsByTag(tag, page = 1) {
+  try {
+    const params = new URLSearchParams({
+      page,
+      size: postsPerPage,
+      tag,
+    });
+
+    const data = await AccessAPI.apiFetch(`/api/v1/posts/tag?${params}`);
+
+    if (!data.isSuccess) {
+      return alert("태그 게시글 조회 실패: " + data.message);
+    }
+
+    const { posts: tagPosts, currentPage: cp, totalPages: tp } = data.result;
+
+    currentPage = cp;
+    totalPages = tp;
+
+    renderPosts(tagPosts);
+    renderPagination();
+    const tagTextMap = {
+      QUESTION: "식단 질문",
+      RECOMMEND: "식단 추천",
+      ANSWER: "식단 인증",
+      ETC: "기타",
+    };
+
+    document.getElementById("tag-title").textContent = `#${tag}`;
+  } catch (err) {
+    console.error("태그 검색 중 오류:", err);
+    alert("서버 오류로 게시글을 불러올 수 없습니다.");
+  }
+}
+
+// ✅ 게시글 렌더링
 function renderPosts(postList) {
   const container = document.getElementById("post-container");
   container.innerHTML = "";
@@ -74,7 +107,7 @@ function renderPosts(postList) {
   });
 }
 
-// 3) 페이지네이션 UI
+// ✅ 페이지네이션
 function renderPagination() {
   document.getElementById(
     "page-info"
@@ -93,7 +126,7 @@ function renderPagination() {
   };
 }
 
-// 4) 특정 포스트의 댓글 목록 조회
+// ✅ 댓글 조회
 async function fetchComments(postId) {
   try {
     const data = await AccessAPI.apiFetch(`/api/v1/posts/${postId}/comments`);
@@ -106,7 +139,7 @@ async function fetchComments(postId) {
       user: c.memberNickname,
       text: c.comment,
       time: new Date(c.createdAt).toLocaleString(),
-      replies: [], // hierarchy/orders 로 처리 가능
+      replies: [],
     }));
   } catch (err) {
     console.error("댓글 로드 중 오류:", err);
@@ -114,17 +147,14 @@ async function fetchComments(postId) {
   }
 }
 
-// 5) 댓글 렌더 함수 (기존 renderComments 재사용)
-// 5) 댓글 렌더 함수 (구현 추가)
+// ✅ 댓글 렌더링
 function renderComments(comments, container, depth = 0) {
-  container.innerHTML = ""; // 기존 내용 초기화
+  container.innerHTML = "";
 
   comments.forEach((comment) => {
-    // 1) 댓글 박스 생성
     const commentBox = document.createElement("div");
     commentBox.className = depth === 0 ? "comment-box" : "reply-box";
 
-    // 2) 댓글 HTML 채우기
     commentBox.innerHTML = `
       <div class="comment-header">
         <div class="comment-header-left">
@@ -143,9 +173,9 @@ function renderComments(comments, container, depth = 0) {
       <div class="reply-input-container" style="display: none;"></div>
     `;
 
-    // 3) 대댓글 버튼 토글 (선택)
     const replyBtn = commentBox.querySelector(".reply-btn");
     const replyContainer = commentBox.querySelector(".reply-input-container");
+
     if (replyBtn) {
       replyBtn.addEventListener("click", () => {
         if (replyContainer.style.display === "block") {
@@ -158,7 +188,6 @@ function renderComments(comments, container, depth = 0) {
           `;
           replyContainer.style.display = "block";
 
-          // (여기서 실제 대댓글 API 호출 로직 추가 가능)
           replyContainer
             .querySelector(".submit-reply")
             .addEventListener("click", async () => {
@@ -166,16 +195,14 @@ function renderComments(comments, container, depth = 0) {
                 .querySelector(".reply-input")
                 .value.trim();
               if (!text) return;
-              // TODO: POST /comments/{commentId}/replies API 호출 후, 댓글 다시 로드
+              // TODO: 대댓글 POST API 호출 후 갱신
             });
         }
       });
     }
 
-    // 4) DOM에 추가
     container.appendChild(commentBox);
 
-    // 5) 재귀 렌더: 대댓글이 있으면
     if (comment.replies && comment.replies.length) {
       const replyWrapper = document.createElement("div");
       replyWrapper.className = "reply-wrapper";
@@ -185,10 +212,10 @@ function renderComments(comments, container, depth = 0) {
   });
 }
 
-// 6) 상세 팝업 열기 + 댓글 조회·작성 바인딩
+// ✅ 게시글 상세 팝업
 async function openDetailPopup(post) {
   currentPost = post;
-  // 기본 정보
+
   document.getElementById("detail-author").textContent = post.authorNickname;
   document.getElementById("detail-time").textContent = new Date(
     post.createdAt
@@ -203,27 +230,26 @@ async function openDetailPopup(post) {
     post.commentCount;
   document.getElementById("detail-saves-count").textContent = post.scrapCount;
 
-  // 이미지
   const imgCt = document.getElementById("detail-images");
   imgCt.innerHTML = post.thumbnailImageUrl
     ? `<img src="${post.thumbnailImageUrl}" class="detail-img"/>`
     : "";
 
-  // 댓글 불러와서 렌더
   const comments = await fetchComments(post.postId);
   renderComments(comments, document.getElementById("detail-comments"));
 
-  // 팝업 보이기
   document.querySelector(".detail-overlay").classList.remove("hidden");
 
-  // 댓글 등록 버튼 바인딩
   document.getElementById("submit-main-comment").onclick = async () => {
     const inp = document.getElementById("main-comment-input");
     const txt = inp.value.trim();
     if (!txt) return;
     const res = await AccessAPI.apiFetch(
       `/api/v1/posts/${post.postId}/comments`,
-      { method: "POST", body: JSON.stringify({ comment: txt }) }
+      {
+        method: "POST",
+        body: JSON.stringify({ comment: txt }),
+      }
     );
     if (!res.isSuccess) return alert("댓글 등록 실패: " + res.message);
     inp.value = "";
@@ -232,27 +258,86 @@ async function openDetailPopup(post) {
     document.getElementById("detail-comments-count").textContent =
       updated.length;
   };
+  // ✅ 좋아요 버튼 클릭 시
+  document.getElementById("like-btn").onclick = async () => {
+    try {
+      const res = await AccessAPI.apiFetch(
+        `/api/v1/posts/${post.postId}/like`,
+        {
+          method: "POST",
+        }
+      );
 
-  // 닫기 바인딩
+      if (!res.isSuccess) {
+        return alert("좋아요 실패: " + res.message);
+      }
+
+      // ✅ 응답에 따라 좋아요 수 반영
+      document.getElementById("detail-likes-count").textContent =
+        res.result.count;
+    } catch (err) {
+      console.error("좋아요 처리 중 오류:", err);
+      alert("서버 오류로 좋아요에 실패했습니다.");
+    }
+  };
+  // ✅ 스크랩 버튼 클릭 시
+  document.getElementById("save-btn").onclick = async () => {
+    try {
+      const res = await AccessAPI.apiFetch(
+        `/api/v1/posts/${post.postId}/scrap`,
+        {
+          method: "POST",
+        }
+      );
+
+      if (!res.isSuccess) {
+        return alert("스크랩 실패: " + res.message);
+      }
+
+      // ✅ 응답에 따라 스크랩 수 반영
+      document.getElementById("detail-saves-count").textContent =
+        res.result.count;
+    } catch (err) {
+      console.error("스크랩 처리 중 오류:", err);
+      alert("서버 오류로 스크랩 처리에 실패했습니다.");
+    }
+  };
+
   document.querySelector(".close-detail").onclick = () => {
     document.querySelector(".detail-overlay").classList.add("hidden");
   };
 }
 
-// 7) 최초 로드
-document.addEventListener("DOMContentLoaded", () => {
-  loadPosts(1);
-  // 태그 필터, 글쓰기 팝업 등 나머지 이벤트도 여기에 바인딩
-});
-document.getElementById("search-btn").addEventListener("click", () => {
-  const keyword = document.getElementById("search-input").value.trim();
-  if (!keyword) {
-    alert("검색어를 입력해주세요.");
-    return;
-  }
-  searchPosts(keyword, 1);
-});
+// ✅ 스크랩 게시글 조회
+async function loadScrapPosts(page = 1) {
+  try {
+    const params = new URLSearchParams({
+      page,
+      size: postsPerPage,
+    });
 
+    const data = await AccessAPI.apiFetch(`/api/v1/posts/scraps?${params}`);
+
+    if (!data.isSuccess) {
+      alert("스크랩 게시글 조회 실패: " + data.message);
+      return;
+    }
+
+    const { posts: scrapPosts, currentPage: cp, totalPages: tp } = data.result;
+
+    currentPage = cp;
+    totalPages = tp;
+
+    renderPosts(scrapPosts);
+    renderPagination();
+    document.getElementById("tag-title").textContent = "저장한 게시물";
+  } catch (err) {
+    console.error("스크랩 게시글 로딩 오류:", err);
+    alert("스크랩 게시글 불러오는 중 오류가 발생했습니다.");
+  }
+}
+
+// ✅ 검색 기능
 async function searchPosts(keyword, page = 1) {
   try {
     const params = new URLSearchParams({
@@ -277,42 +362,124 @@ async function searchPosts(keyword, page = 1) {
     totalPages = tp;
 
     renderPosts(searchResults);
-    renderPagination(); // 필요 시 재활용
+    renderPagination();
     document.getElementById("tag-title").textContent = `"${keyword}" 검색 결과`;
   } catch (err) {
     console.error("검색 중 오류:", err);
     alert("검색 중 서버 오류가 발생했습니다.");
   }
 }
-document.getElementById("view-scrap-posts").addEventListener("click", () => {
-  loadScrapPosts(1); // 첫 페이지부터 조회
-});
 
-async function loadScrapPosts(page = 1) {
-  try {
-    const params = new URLSearchParams({
-      page,
-      size: postsPerPage,
+// ✅ 초기 실행 및 이벤트 바인딩
+document.addEventListener("DOMContentLoaded", () => {
+  loadPosts(1);
+
+  document.getElementById("search-btn").addEventListener("click", () => {
+    const keyword = document.getElementById("search-input").value.trim();
+    if (!keyword) {
+      alert("검색어를 입력해주세요.");
+      return;
+    }
+    searchPosts(keyword, 1);
+  });
+
+  document.getElementById("view-scrap-posts").addEventListener("click", () => {
+    loadScrapPosts(1);
+  });
+
+  document.querySelectorAll(".hashtags .tag").forEach((tagEl) => {
+    tagEl.addEventListener("click", () => {
+      const tagValue = tagEl.getAttribute("data-tag");
+      loadPostsByTag(tagValue, 1);
     });
+  });
+  // ✅ 팝업 열기
+  window.onload = function () {
+    document.querySelector(".write-btn").addEventListener("click", () => {
+      document.querySelector(".popup-overlay").style.display = "flex";
+    });
+  };
 
-    const data = await AccessAPI.apiFetch(`/api/v1/posts/scraps?${params}`);
+  // ✅ 팝업 닫기
+  document.querySelector(".cancel-btn").addEventListener("click", () => {
+    document.querySelector(".popup-overlay").style.display = "none";
+  });
 
-    if (!data.isSuccess) {
-      alert("스크랩 게시글 조회 실패: " + data.message);
+  // ✅ 글 작성 등록 처리
+  document.querySelector(".submit-btn").addEventListener("click", async () => {
+    const titleInput = document.querySelector(".popup input[type='text']");
+    const contentTextarea = document.getElementById("postContent");
+
+    const title = titleInput.value.trim();
+    const content = contentTextarea.value.trim();
+
+    // ✅ 선택된 태그 가져오기
+    const selectedTag = document.querySelector(".popup-tags .tag.selected");
+    if (!selectedTag) {
+      alert("태그를 선택해주세요.");
       return;
     }
 
-    const { posts: scrapPosts, currentPage: cp, totalPages: tp } = data.result;
+    const tagText = selectedTag.getAttribute("data-tag");
+    const tagMap = {
+      "식단 질문": "QUESTION",
+      "식단 추천": "RECOMMEND",
+      "식단 인증": "ANSWER",
+      기타: "ETC",
+    };
+    const tag = tagMap[tagText];
 
-    currentPage = cp;
-    totalPages = tp;
+    if (!title || !content) {
+      alert("제목과 본문을 입력해주세요.");
+      return;
+    }
 
-    renderPosts(scrapPosts); // 기존 함수 재활용
-    renderPagination(); // 페이지네이션 유지
+    try {
+      const res = await AccessAPI.apiFetch("/api/v1/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          content,
+          tags: [tag],
+          images: [], // 이미지 안 넣을 경우 빈 배열
+        }),
+      });
 
-    document.getElementById("tag-title").textContent = "⭐ 저장한 게시물";
-  } catch (err) {
-    console.error("스크랩 게시글 로딩 오류:", err);
-    alert("스크랩 게시글 불러오는 중 오류가 발생했습니다.");
-  }
-}
+      if (!res.isSuccess) {
+        return alert("글 작성 실패: " + res.message);
+      }
+
+      alert("글이 성공적으로 등록되었습니다!");
+      document.querySelector(".popup-overlay").style.display = "none";
+
+      // 초기화
+      titleInput.value = "";
+      contentTextarea.value = "";
+      document
+        .querySelectorAll(".popup-tags .tag")
+        .forEach((el) => el.classList.remove("selected"));
+
+      // 목록 새로고침
+      loadPosts(1);
+    } catch (err) {
+      console.error("글 등록 중 오류:", err);
+      alert("서버 오류로 글 등록에 실패했습니다.");
+    }
+  });
+
+  // ✅ 태그 선택 UI 처리
+  document.querySelectorAll(".popup-tags .tag").forEach((tagEl) => {
+    tagEl.addEventListener("click", () => {
+      document
+        .querySelectorAll(".popup-tags .tag")
+        .forEach((el) => el.classList.remove("selected"));
+      tagEl.classList.add("selected");
+    });
+  });
+
+  // ✅ 글자수 실시간 표시
+  document.getElementById("postContent").addEventListener("input", (e) => {
+    const len = e.target.value.length;
+    document.getElementById("charCount").textContent = `${len} / 2000`;
+  });
+});
