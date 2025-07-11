@@ -396,3 +396,9 @@ input.error {
 #code-status.error {
   color: #f25f5f;
 }
+/* 로그인 페이지의 리프리 로고 이미지 */
+.refri-logo {
+  width: 153.26px; /* 원하는 크기로 조절 */
+  height: auto;
+  margin-top: 100px;
+}
