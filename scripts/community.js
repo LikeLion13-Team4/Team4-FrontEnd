@@ -48,6 +48,8 @@ async function loadPostsByTag(tag, page = 1) {
 
     renderPosts(tagPosts);
     renderPagination();
+
+    // ✅ 영어 태그 → 한글 태그 변환
     const tagTextMap = {
       QUESTION: "식단 질문",
       RECOMMEND: "식단 추천",
@@ -55,7 +57,8 @@ async function loadPostsByTag(tag, page = 1) {
       ETC: "기타",
     };
 
-    document.getElementById("tag-title").textContent = `#${tag}`;
+    const koreanTag = tagTextMap[tag] || tag; // 매핑 없을 경우 그대로 표시
+    document.getElementById("tag-title").textContent = `#${koreanTag}`;
   } catch (err) {
     console.error("태그 검색 중 오류:", err);
     alert("서버 오류로 게시글을 불러올 수 없습니다.");
@@ -66,7 +69,12 @@ async function loadPostsByTag(tag, page = 1) {
 function renderPosts(postList) {
   const container = document.getElementById("post-container");
   container.innerHTML = "";
-
+  const tagTextMap = {
+    QUESTION: "식단 질문",
+    RECOMMEND: "식단 추천",
+    ANSWER: "식단 인증",
+    ETC: "기타",
+  };
   postList.forEach((post) => {
     const card = document.createElement("div");
     card.className = "post-card";
@@ -87,7 +95,9 @@ function renderPosts(postList) {
       </div>
       <div class="post-footer">
         <div class="tags">
-          ${post.tags.map((t) => `<span class="tag"># ${t}</span>`).join("")}
+          ${post.tags
+            .map((t) => `<span class="tag"># ${tagTextMap[t] || t}</span>`)
+            .join("")}
         </div>
         ${
           post.thumbnailImageUrl
@@ -139,6 +149,8 @@ async function fetchComments(postId) {
       user: c.memberNickname,
       text: c.comment,
       time: new Date(c.createdAt).toLocaleString(),
+      parentId: c.parentId, // 중요
+      likes: c.likeCount || 0,
       replies: [],
     }));
   } catch (err) {
@@ -171,7 +183,32 @@ function renderComments(comments, container, depth = 0) {
       </div>
       <div class="comment-content">${comment.text}</div>
       <div class="reply-input-container" style="display: none;"></div>
-    `;
+    `; // 공감 버튼 처리
+    const likeBtn = commentBox.querySelector(".like-btn");
+    if (likeBtn) {
+      likeBtn.addEventListener("click", async () => {
+        try {
+          const res = await AccessAPI.apiFetch(
+            `/api/v1/comments/${comment.id}/like`,
+            { method: "POST" }
+          );
+
+          if (!res.isSuccess) {
+            return alert("공감 실패: " + res.message);
+          }
+
+          // 공감 수를 직접 증가시켜 표시 (단순히 +1 처리)
+          const currentText = likeBtn.textContent;
+          const match = currentText.match(/\d+/);
+          let currentCount = match ? parseInt(match[0]) : 0;
+          currentCount += 1;
+          likeBtn.textContent = `공감 (${currentCount})`;
+        } catch (err) {
+          console.error("공감 처리 중 오류:", err);
+          alert("서버 오류로 공감에 실패했습니다.");
+        }
+      });
+    }
 
     const replyBtn = commentBox.querySelector(".reply-btn");
     const replyContainer = commentBox.querySelector(".reply-input-container");
@@ -195,7 +232,58 @@ function renderComments(comments, container, depth = 0) {
                 .querySelector(".reply-input")
                 .value.trim();
               if (!text) return;
-              // TODO: 대댓글 POST API 호출 후 갱신
+
+              try {
+                // POST /api/v1/comments/{parentId}/replies 호출
+                const res = await AccessAPI.apiFetch(
+                  `/api/v1/comments/${comment.id}/replies`,
+                  {
+                    method: "POST",
+                    body: JSON.stringify({ comment: text }),
+                  }
+                );
+
+                if (!res.isSuccess) {
+                  return alert("대댓글 등록 실패: " + res.message);
+                }
+
+                // 새로운 대댓글 요소 생성
+                const replyBox = document.createElement("div");
+                replyBox.className = "reply-box";
+                const now = new Date().toLocaleString();
+                replyBox.innerHTML = `
+        <div class="comment-header">
+          <div class="comment-header-left">
+            <div class="profile-circle small"></div>
+            <div class="comment-meta">
+              <span class="comment-author">나</span>
+              <span class="comment-time">${now}</span>
+            </div>
+          </div>
+          <div class="comment-actions">
+            <button class="like-btn">공감 (0)</button>
+          </div>
+        </div>
+        <div class="comment-content">${text}</div>
+      `;
+
+                // 부모 댓글 박스에 있는 reply-wrapper에 append
+                let replyWrapper = commentBox.querySelector(".reply-wrapper");
+                if (!replyWrapper) {
+                  replyWrapper = document.createElement("div");
+                  replyWrapper.className = "reply-wrapper";
+                  commentBox.appendChild(replyWrapper);
+                }
+
+                replyWrapper.appendChild(replyBox);
+
+                // 입력창 초기화 및 닫기
+                replyContainer.innerHTML = "";
+                replyContainer.style.display = "none";
+              } catch (err) {
+                console.error("대댓글 등록 중 오류:", err);
+                alert("서버 오류로 대댓글 등록에 실패했습니다.");
+              }
             });
         }
       });
@@ -215,6 +303,12 @@ function renderComments(comments, container, depth = 0) {
 // ✅ 게시글 상세 팝업
 async function openDetailPopup(post) {
   currentPost = post;
+  const tagTextMap = {
+    QUESTION: "식단 질문",
+    RECOMMEND: "식단 추천",
+    ANSWER: "식단 인증",
+    ETC: "기타",
+  };
 
   document.getElementById("detail-author").textContent = post.authorNickname;
   document.getElementById("detail-time").textContent = new Date(
@@ -223,7 +317,7 @@ async function openDetailPopup(post) {
   document.getElementById("detail-title").textContent = post.title;
   document.getElementById("detail-body").textContent = post.content;
   document.getElementById("detail-tags").innerHTML = post.tags
-    .map((t) => `<span class="tag"># ${t}</span>`)
+    .map((t) => `<span class="tag"># ${tagTextMap[t] || t}</span>`)
     .join("");
   document.getElementById("detail-likes-count").textContent = post.likeCount;
   document.getElementById("detail-comments-count").textContent =
@@ -386,7 +480,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("view-scrap-posts").addEventListener("click", () => {
     loadScrapPosts(1);
   });
-
+  document.getElementById("view-my-posts").addEventListener("click", () => {
+    loadMyPosts(1);
+  });
   document.querySelectorAll(".hashtags .tag").forEach((tagEl) => {
     tagEl.addEventListener("click", () => {
       const tagValue = tagEl.getAttribute("data-tag");
@@ -483,3 +579,31 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("charCount").textContent = `${len} / 2000`;
   });
 });
+// ✅ 내가 작성한 게시글 조회
+async function loadMyPosts(page = 1) {
+  try {
+    const params = new URLSearchParams({
+      page,
+      size: postsPerPage,
+    });
+
+    const data = await AccessAPI.apiFetch(`/api/v1/posts/my?${params}`);
+
+    if (!data.isSuccess) {
+      alert("내 게시글 조회 실패: " + data.message);
+      return;
+    }
+
+    const { posts: myPosts, currentPage: cp, totalPages: tp } = data.result;
+
+    currentPage = cp;
+    totalPages = tp;
+
+    renderPosts(myPosts);
+    renderPagination();
+    document.getElementById("tag-title").textContent = "내 게시물";
+  } catch (err) {
+    console.error("내 게시글 로딩 오류:", err);
+    alert("내 게시글을 불러오는 중 오류가 발생했습니다.");
+  }
+}
