@@ -64,13 +64,10 @@
                 <div class="mode view-mode">
                     <div class="profile-pic"></div>
 
-                    <h3 class="user-name" id="nickname">닉임</h3>
+                    <h3 class="user-name" id="nick-name">닉임</h3>
                     <div class="detail-info">
                         <dl class="physical-details">
-                            <div class="detail-row">
-                                <dt id="nick-name">나이</dt>
-                                <dd id="">-</dd>
-                            </div>
+
                             <div class="detail-row">
                                 <div class="first">
                                     <dt>성별</dt>
@@ -221,46 +218,48 @@
                             <div class="detail-row">
                                 <div class="first">이름</div>
                                 <div class="second">
-                                    <input type="text" name="userName" value="김00" readonly />
+                                    <input id="porfile-name" type="text" name="userName" value="김00" />
                                 </div>
                             </div>
                             <!-- Email은 변경 가능 -->
                             <div class="detail-row">
                                 <div class="first">Email</div>
                                 <div class="second">
-                                    <input type="email" name="email" value="likelion13th_team4@gmail.com" />
+                                    <input id="profile-email" type="email" name="email"
+                                        value="likelion13th_team4@gmail.com" />
                                 </div>
                             </div>
                             <!-- 기존 비밀번호 입력 -->
                             <div class="detail-row">
                                 <div class="first">기존 비밀번호</div>
                                 <div class="second">
-                                    <input type="password" name="currentPassword" placeholder="현재 비밀번호 입력" />
+                                    <input id="profile-past-pw" type="password" name="currentPassword"
+                                        placeholder="현재 비밀번호 입력" />
                                 </div>
                             </div>
                             <!-- 새 비밀번호 입력 -->
                             <div class="detail-row">
                                 <div class="first">새 비밀번호</div>
                                 <div class="second">
-                                    <input type="password" name="newPassword" placeholder="새 비밀번호 입력" />
+                                    <input id="prfile-new-pw" type="password" name="newPassword"
+                                        placeholder="새 비밀번호 입력" />
                                 </div>
                             </div>
                             <!-- 이메일 6자리 인증코드 -->
                             <div class="detail-row">
                                 <div class="first">이메일 인증코드</div>
                                 <div class="second code-group">
-                                    <input type="text" name="emailCode" placeholder="6자리 코드" maxlength="6" />
-                                    <button type="button" class="btn-code">
+                                    <input id="profile-email-code" type="text" name="emailCode" placeholder="6자리 코드"
+                                        maxlength="6" />
+                                    <button id="profile-email-certify-btn" type="button" class="btn-code">
                                         인증코드 받기
                                     </button>
-                                    <button type="button" class="btn-code-verify">
-                                        인증하기
-                                    </button>
+
                                 </div>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn-save">저장</button>
+                        <button type="submit" id="profile-change-submit" class="btn-save">저장</button>
                     </form>
                 </div>
     </div>
@@ -491,6 +490,9 @@
     <script src="../scripts/updatePosts.js" defer></script>
     <script src="../scripts/detailPage.js" defer></script>
     <script src="../scripts/logout.js" defer></script>
+    <script src="../scripts/pwChange.js" defer></script>
+    <script src="../scripts/aiAdvise.js" defer></script>
+
 
     <!-- 저장/좋아요/내 게시글(공통 카드) -->
     <template id="card-template">

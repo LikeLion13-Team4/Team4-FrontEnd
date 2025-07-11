@@ -1,28 +1,36 @@
-window.addEventListener("DOMContentLoaded", () => {
-  const button = document.getElementById("getAdviceButton");
-  if (!button) {
-    console.warn("버튼 못 찾음");
-    return;
-  }
+document
+  .getElementById("getAdviceButton")
+  .addEventListener("click", async () => {
+    // 1) Date 객체 준비
+    const today = new Date();
 
-  button.addEventListener("click", async () => {
+    // 2) startDate = today - 6일
+    const start = new Date(today);
+    start.setDate(start.getDate() - 6);
+
+    // 3) endDate = today + 1일
+    const end = new Date(today);
+    end.setDate(end.getDate() + 1);
+
+    // 4) YYYY-MM-DD 형식으로 자르기
+    const startDate = start.toISOString().slice(0, 10);
+    const endDate = end.toISOString().slice(0, 10);
+
     try {
-      const today = new Date().toISOString().split("T")[0];
-      const body = { startDate: today, endDate: today };
-
-      const response = await AccessAPI.apiFetch("/api/v1/report/feedback", {
+      const res = await AccessAPI.apiFetch("/api/v1/report/feedback", {
         method: "POST",
-        body: JSON.stringify(body),
+        body: JSON.stringify({ startDate, endDate }),
       });
 
-      if (!response.isSuccess) {
-        console.error(`AI 피드백 실패: ${response.message}`);
+      if (!res.isSuccess) {
+        console.error("AI 피드백 요청 실패:", res);
+        alert(`피드백 요청 실패: ${res.message}`);
         return;
       }
 
-      document.getElementById("feedbackText").innerHTML = response.result;
+      document.getElementById("feedbackText").innerHTML = res.result;
     } catch (err) {
-      console.error("AI 영양사 API 호출 중 오류:", err);
+      console.error("AI 피드백 호출 중 오류:", err);
+      alert("피드백 요청 중 오류가 발생했습니다.");
     }
   });
-});
