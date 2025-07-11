@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
           deletedModal.classList.add("hidden");
           // 👉 예: 로그아웃 처리 후 메인 페이지로 이동
           AccessAPI.clearToken();
-          window.location.href = "/pages/index.html";
+          window.location.href = "../../index.html";
         }, 2000);
       } else {
         alert("계정 삭제 실패: " + res.message);

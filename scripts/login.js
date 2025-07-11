@@ -32,11 +32,11 @@ window.addEventListener("DOMContentLoaded", () => {
         // isTemp 체크
         if (data.result.isTemp === "IS_TEMP_PASSWORD") {
           // 임시 비밀번호 발급 상태라면 myPage로 이동 후 폼 노출 플래그 전달
-          window.location.href = "myPage.html?temp=true";
+          window.location.href = "pages/myPage.html?temp=true";
           alert("즉시 비밀번호를 변경해주세요.");
         } else {
           // 일반 로그인
-          window.location.href = "report.html";
+          window.location.href = "pages/report.html";
         }
       } else {
         alert("로그인 실패: " + data.message);
