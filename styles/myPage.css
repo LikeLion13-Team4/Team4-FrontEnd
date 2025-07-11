@@ -596,3 +596,121 @@ body {
   border: none;
   cursor: pointer;
 }
+
+/* 또는 최소/최대 너비로 유연하게 */
+#profile-edit-btn {
+  min-width: 60px;
+  max-width: 100px;
+  padding: 4px 8px;
+  margin-left: 400px;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* ← 왼쪽 정렬 */
+  /* width 설정이 있으면 적당히 줄이거나 max-width로 제한해 주세요 */
+  width: 100%;
+  max-width: 400px; /* 필요에 따라 조절 */
+  margin: 0 auto; /* 전체 레이아웃을 가운데 두고, 세부 요소는 왼쪽에 붙이려면 이렇게 */
+}
+
+/* ── 이메일 인증코드 행 ── */
+#email-certify-code {
+  /* 왼쪽 컬럼(레이블) */
+  width: 120px; /* 레이블 영역 고정 너비 */
+  text-align: right;
+  font-weight: bold;
+  margin-right: 16px;
+  line-height: 48px; /* 인풋 높이와 맞추기 */
+}
+
+/* 오른쪽 컬럼(입력+버튼) */
+.code-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1; /* 남은 공간 전부 차지 */
+}
+
+/* 인증코드 입력창 */
+#profile-email-code {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #fff;
+  appearance: none;
+}
+
+/* 인증코드 받기 버튼 */
+#profile-email-certify-btn {
+  height: 48px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 12px;
+  background-color: #59654e;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#profile-email-certify-btn:hover {
+  background-color: #48513f;
+}
+
+/* 전체 detail-row 조정 (필요 시) */
+.detail-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* 프로필 변경 저장 버튼 */
+#profile-change-submit {
+  display: inline-block;
+  height: 48px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 12px;
+  background-color: #59654e;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  margin-left: 200px;
+}
+
+/* 호버 시 조금 더 진한 배경 */
+#profile-change-submit:hover {
+  background-color: #48513f;
+}
+
+/* 클릭(활성) 시 살짝 눌린 느낌 */
+#profile-change-submit:active {
+  transform: scale(0.98);
+}
+
+/* 비활성(disabled) 상태 스타일 (필요 시) */
+#profile-change-submit:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #888;
+}
+
+/* 선택된 라디오 버튼 텍스트만 진하게 */
+.btn-radio input:checked + span {
+  color: #000 !important; /* 원하시는 진한 색으로 조정 */
+  font-weight: 700; /* 필요하면 볼드체 */
+}
+
+.btn-radio span {
+  /* 이 span에만 배경색을 줘서 “글자 주변”만 하이라이트 */
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+}

@@ -26,6 +26,7 @@ window.addEventListener("DOMContentLoaded", () => {
       if (data.isSuccess) {
         alert("로그인 성공!");
         AccessAPI.setToken(data.result.accessToken);
+        
         // isTemp를 세션 스토리지에 저장
         sessionStorage.setItem("isTemp", data.result.isTemp);
 
